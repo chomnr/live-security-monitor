@@ -53,12 +53,11 @@ public class BruteFileListener {
                         Path child = directory.resolve(fileName);
                         if (Files.isSameFile(child.toAbsolutePath(), this.file.toPath())) {
                             if (log) {
-                                BruteUtilities.print("Sending attempt to websocket.");
+                                BruteUtilities.print("Logged an attempt.");
                             }
                         }
                     }
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
