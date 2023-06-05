@@ -1,11 +1,11 @@
 package Brute;
 
+import main.BruteUtilities;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BruteException extends Throwable {
-
-    public static final String EXCEPTION_PREFIX = "[BRUTE]";
 
     private int code;
     private String name;
@@ -40,13 +40,13 @@ public class BruteException extends Throwable {
     private String GetFormattedExceptionMessage(String message, boolean inDetail) {
         StringBuilder sb = new StringBuilder();
         if (inDetail) {
-            sb.append(EXCEPTION_PREFIX);
+            sb.append(BruteUtilities.PREFIX);
             sb.append(" ");
             sb.append(GetOccurrence());
             sb.append(" ");
             sb.append(message);
         } else {
-            sb.append(EXCEPTION_PREFIX);
+            sb.append(BruteUtilities.PREFIX);
             sb.append(" ");
             sb.append(message);
         }

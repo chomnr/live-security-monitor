@@ -1,6 +1,7 @@
 package Brute.WebSocket;
 
 import Brute.BruteException;
+import main.BruteUtilities;
 import org.java_websocket.WebSocket;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
@@ -13,7 +14,7 @@ import java.util.Collections;
 public class BruteServer extends WebSocketServer {
 
     public BruteServer(int port) throws BruteException {
-        super(BruteServerHelper.AnalyzePort(port));
+        super(BruteServerHelper.analyze(port));
     }
 
     public BruteServer(InetSocketAddress address) {
@@ -46,5 +47,6 @@ public class BruteServer extends WebSocketServer {
     @Override
     public void onStart() {
         setConnectionLostTimeout(10);
+        BruteUtilities.print("Listening on " + this.getAddress().getHostName() + ":" + this.getPort() + ".");
     }
 }
