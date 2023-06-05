@@ -3,8 +3,23 @@ package Brute.Metrics.Types;
 import Brute.Metrics.BruteMetricType;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+/*
+{
+   "numberOfAttemptsOverTime":{
+      "hourly":{
+         "2023-06-04T00:00:00":10
+      },
+      "daily":{
+         "2023-06-04":50
+      },
+      "weekly":{
+         "2023-05-29":200
+      }
+   }
+}
+ */
 
 public class NumberOfAttemptsOverTime extends BruteMetricType {
     private Hourly hourly;
