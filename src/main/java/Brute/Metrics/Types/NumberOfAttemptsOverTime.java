@@ -43,38 +43,38 @@ public class NumberOfAttemptsOverTime extends BruteMetricType {
     }
 
     private static class Hourly implements InnerMetricDataType {
-        private Map<String, Long> data = new HashMap<>();
+        private Map<String, Long> hourly = new HashMap<>();
 
         public Map<String, Long> getData(){
-            return data;
+            return hourly;
         }
 
         public void addData(String key, Long value){
-            data.put(key, value);
+            hourly.put(key, value);
         }
     }
 
     private static class Daily implements InnerMetricDataType {
-        private Map<String, Long> data = new HashMap<>();
+        private Map<String, Long> daily = new HashMap<>();
 
         public Map<String, Long> getData(){
-            return data;
+            return daily;
         }
 
         public void addData(String key, Long value){
-            data.put(key, value);
+            daily.put(key, value);
         }
     }
 
     private static class Weekly implements InnerMetricDataType {
-        private Map<String, Long> data = new HashMap<>();
+        private Map<String, Long> weekly = new HashMap<>();
 
         public Map<String, Long> getData(){
-            return data;
+            return weekly;
         }
 
         public void addData(String key, Long value){
-            data.put(key, value);
+            weekly.put(key, value);
         }
     }
 
