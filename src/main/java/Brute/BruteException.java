@@ -33,8 +33,12 @@ public class BruteException extends Throwable {
     public final String GetOccurrence(){
         Date date = new Date();
         String occurrenceFormat = "yyyy-MM-dd HH:mm:ss";
-        SimpleDateFormat dateFormat = new SimpleDateFormat(occurrenceFormat );
+        SimpleDateFormat dateFormat = new SimpleDateFormat(occurrenceFormat);
         return dateFormat.format(date);
+    }
+
+    public final void printStackTrace() {
+        BruteUtilities.print(name + " " + message);
     }
 
     private String GetFormattedExceptionMessage(String message, boolean inDetail) {
