@@ -19,7 +19,7 @@ import java.util.Map;
       }
    }
 }
- */
+*/
 
 public class NumberOfAttemptsOverTime extends BruteMetricType {
     private Hourly hourly;
