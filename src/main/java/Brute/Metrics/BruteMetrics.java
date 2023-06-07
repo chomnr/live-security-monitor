@@ -1,19 +1,29 @@
 package Brute.Metrics;
 
-import Brute.Metrics.TimeBasedMetrics.TimeBasedMetric;
+import Brute.Metrics.TimeBasedMetrics.NumberOfAttemptsOverTime;
 
 import java.util.*;
 
 public class BruteMetrics {
 
+
+    private BruteMetricData metrics;
+
     //public Map<String, Class<? extends BruteMetricData>> metricsList;
     //private List<Class<? extends BruteMetricData>> metricList;
-    private Map<String, TimeBasedMetric> timeBasedMetrics;
+    //private List<TimeBasedMetric> timeBasedMetricMap;
 
     public BruteMetrics() {
-        //metricsList = new HashMap<>();
-        timeBasedMetrics = new HashMap<>();
+        metrics =  new BruteMetricData();
     }
+
+    public BruteMetricData GetMetrics() {
+        return metrics;
+    }
+
+
+
+
 
     /*
     public Map<String, BruteMetricType> metricsList;

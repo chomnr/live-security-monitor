@@ -1,11 +1,13 @@
 package Brute.Metrics.TimeBasedMetrics;
 
-import javax.swing.text.DateFormatter;
+import Brute.Metrics.BruteMetricData;
+
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
+import Brute.Metrics.TimeBasedMetrics.TimeBasedMetrics.TimeBasedType;
 /*
 {
    "numberOfAttemptsOverTime":{
@@ -21,10 +23,28 @@ import java.util.Map;
    }
 }
 */
-public class NumberOfAttemptsOverTime extends TimeBasedMetric {
+public class NumberOfAttemptsOverTime {
 
-    private Map<TBM_TYPE, Map<String, Integer>> numberOfAttemptsOverTime;
+    private Map<String, Integer> hourly = new HashMap<>();
+    private Map<String, Integer> daily = new HashMap<>();
+    private Map<String, Integer> weekly = new HashMap<>();
 
+
+    public void add(TimeBasedType type, int value){
+        LocalDateTime date = LocalDateTime.now(ZoneOffset.UTC);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
+
+        if (type == TimeBasedType.DAILY || type == TimeBasedType.WEEKLY) {
+            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        }
+
+        if (type == TimeBasedType.HOURLY) { hourly.put(date.format(formatter), value); }
+        if (type == TimeBasedType.DAILY) { daily.put(date.format(formatter), value); }
+        if (type == TimeBasedType.WEEKLY) { weekly.put(date.format(formatter), value); }
+    }
+
+    //private Map<>
+    /*
     public void insert(TBM_TYPE type, int value) {
         LocalDateTime date = LocalDateTime.now(ZoneOffset.UTC);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
@@ -32,9 +52,13 @@ public class NumberOfAttemptsOverTime extends TimeBasedMetric {
         if (type == TBM_TYPE.HOURLY || type == TBM_TYPE.WEEKLY) {
             formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         }
-        
+
         numberOfAttemptsOverTime.get(type).put(date.format(formatter), value);
     }
+
+    private void weeklyInsert(){}
+
+     */
 }
 
 /*
