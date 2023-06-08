@@ -4,7 +4,11 @@ public class TimeBasedMetrics {
     private NumberOfAttemptsOverTime numberOfAttemptsOverTime;
 
     public enum TimeBasedType {
-        HOURLY, DAILY, WEEKLY, ATTACKFREQUENCYBYDAYOFWEEK, ATTACKFREQUENCYBYTIMEOFDAY
+        HOURLY, DAILY, WEEKLY
+    }
+
+    public enum TimeBasedTypeExtra {
+        ATTACKFREQUENCYBYDAYOFWEEK, ATTACKFREQUENCYBYTIMEOFDAY
     }
 
     public TimeBasedMetrics() {

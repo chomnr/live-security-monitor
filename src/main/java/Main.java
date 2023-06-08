@@ -13,12 +13,13 @@ public class Main {
         BruteMetrics b = new BruteMetrics();
         BruteFileListener c = new BruteFileListener(Constants.FILE_DIRECTORY, Constants.FILE, true);
 
-        b.GetMetrics().getTimeBasedMetrics().getNumberOfAttemptsOverTime().add(TimeBasedMetrics.TimeBasedType.DAILY, 123);
-        b.GetMetrics().getTimeBasedMetrics().getNumberOfAttemptsOverTime().add(TimeBasedMetrics.TimeBasedType.WEEKLY, 341);
-        b.GetMetrics().getTimeBasedMetrics().getNumberOfAttemptsOverTime().add(TimeBasedMetrics.TimeBasedType.HOURLY, 10);
+        b.GetMetrics().getTimeBasedMetrics().getNumberOfAttemptsOverTime().insert(TimeBasedMetrics.TimeBasedType.DAILY, 123);
+        b.GetMetrics().getTimeBasedMetrics().getNumberOfAttemptsOverTime().insert(TimeBasedMetrics.TimeBasedType.WEEKLY, 341);
+        b.GetMetrics().getTimeBasedMetrics().getNumberOfAttemptsOverTime().insert(TimeBasedMetrics.TimeBasedType.WEEKLY, 600);
+        b.GetMetrics().getTimeBasedMetrics().getNumberOfAttemptsOverTime().insert(TimeBasedMetrics.TimeBasedType.HOURLY, 10);
+        b.GetMetrics().getTimeBasedMetrics().getNumberOfAttemptsOverTime().insert(TimeBasedMetrics.TimeBasedType.HOURLY, 30);
         Gson gson = new Gson();
         System.out.println(gson.toJson(b));
-
 
         a.start();
         c.listen();
