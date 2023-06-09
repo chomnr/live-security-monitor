@@ -10,7 +10,6 @@ public class BruteMetricData {
         timeBasedMetrics = new TimeBasedMetrics();
     }
 
-
     public TimeBasedMetrics getTimeBasedMetrics() {
         return timeBasedMetrics;
     }

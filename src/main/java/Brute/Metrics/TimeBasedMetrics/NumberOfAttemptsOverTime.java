@@ -2,7 +2,6 @@ package Brute.Metrics.TimeBasedMetrics;
 
 import Brute.BruteException;
 import Brute.Exceptions.MetricTypeNotCompatible;
-import Brute.Metrics.BruteMetricData;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+
 
 import Brute.Metrics.TimeBasedMetrics.TimeBasedMetrics.TimeBasedType;
 /*
@@ -33,8 +33,15 @@ public class NumberOfAttemptsOverTime {
     private NavigableMap<String, Integer> daily = new TreeMap<>();
     private NavigableMap<String, Integer> weekly = new TreeMap<>();
 
+    public NumberOfAttemptsOverTime() {}
 
-    public void insert(TimeBasedType type, int value) {
+    public void insert(int value) {
+        updateValue(TimeBasedType.HOURLY, value);
+        updateValue(TimeBasedType.DAILY, value);
+        updateValue(TimeBasedType.WEEKLY, value);
+    }
+
+    public void insert(TimeBasedType type,  int value) {
         updateValue(type, value);
     }
 
