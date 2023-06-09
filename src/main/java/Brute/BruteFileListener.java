@@ -1,5 +1,6 @@
 package Brute;
 
+import Brute.Metrics.BruteMetricData;
 import Brute.WebSocket.BruteServer;
 import main.BruteUtilities;
 
@@ -18,10 +19,13 @@ public class BruteFileListener {
     private File file;
     private Boolean log;
 
-    public BruteFileListener(String directory, String file,  boolean log) {
+    private BruteMetricData metrics;
+
+    public BruteFileListener(String directory, String file,  boolean log, BruteMetricData metrics) {
         this.directory = Paths.get(directory);
         this.file = new File(directory + file);
         this.log = log;
+        this.metrics = metrics;
     }
 
     @SuppressWarnings("unchecked")
