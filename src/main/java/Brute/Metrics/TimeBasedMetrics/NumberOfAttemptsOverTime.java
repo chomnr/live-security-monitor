@@ -42,44 +42,20 @@ public class NumberOfAttemptsOverTime {
         NavigableMap<String, Integer> currentMap = getMapByType(type);
 
         long elaspedTime = 0;
+
         if (currentMap.size() != 0) {
             elaspedTime = System.currentTimeMillis() - getExactTime(type, currentMap.lastKey());
         }
 
-        if ( type == TimeBasedType.HOURLY) {
-            if (currentMap.size() != 0 ) {
-                if (elaspedTime > (60 * 60 * 1000)) {
-                    hourly.put(getFormattedTime(type), value);
-                } else {
-                    addAttempts(type, currentMap.lastKey(), value);
-                }
-            } else {
-                hourly.put(getFormattedTime(type), value);
-            }
+        if (currentMap.isEmpty()) {
+            currentMap.put(getFormattedTime(type), value);
+            return;
         }
 
-        if ( type == TimeBasedType.DAILY) {
-            if (currentMap.size() != 0 ) {
-                if (elaspedTime > (24 * 60 * 60 * 1000)) {
-                    daily.put(getFormattedTime(type), value);
-                } else {
-                    addAttempts(type, currentMap.lastKey(), value);
-                }
-            } else {
-                daily.put(getFormattedTime(type), value);
-            }
-        }
-
-        if ( type == TimeBasedType.WEEKLY) {
-            if (currentMap.size() != 0 ) {
-                if (elaspedTime > (24 * 7 * 60 * 60 * 1000)) {
-                    weekly.put(getFormattedTime(type), value);
-                } else {
-                    addAttempts(type, currentMap.lastKey(), value);
-                }
-            } else {
-                weekly.put(getFormattedTime(type), value);
-            }
+        if (elaspedTime > getDurationMillis(type)) {
+            currentMap.put(getFormattedTime(type), value);
+        } else {
+            addAttempts(type, currentMap.lastKey(), value);
         }
     }
 
@@ -110,6 +86,7 @@ public class NumberOfAttemptsOverTime {
         throw new MetricTypeNotCompatible();
     }
 
+
     private long getExactTime(TimeBasedType type, String formattedTime){
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm");
 
@@ -125,6 +102,19 @@ public class NumberOfAttemptsOverTime {
         return 0;
     }
 
+    private long getDurationMillis(TimeBasedType type) {
+        switch (type) {
+            case HOURLY:
+                return 60 * 60 * 1000;
+            case DAILY:
+                return 24 * 60 * 60 * 1000;
+            case WEEKLY:
+                return 24 * 7 * 60 * 60 * 1000;
+            default:
+                return 0;
+        }
+    }
+
     private NavigableMap<String, Integer> getMapByType(TimeBasedType type) {
         if (type == TimeBasedType.HOURLY) {
             return hourly;
@@ -133,16 +123,6 @@ public class NumberOfAttemptsOverTime {
             return daily;
         }
         return weekly;
-    }
-
-    private Map.Entry<String, Integer> getLastEntry(TimeBasedType type) {
-        if (type == TimeBasedType.HOURLY) {
-            return hourly.lastEntry();
-        }
-        if (type == TimeBasedType.DAILY) {
-            return daily.lastEntry();
-        }
-        return weekly.lastEntry();
     }
 
     private String getFormattedTime(TimeBasedType type) {
