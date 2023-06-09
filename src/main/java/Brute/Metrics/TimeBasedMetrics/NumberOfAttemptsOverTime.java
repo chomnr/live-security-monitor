@@ -5,6 +5,7 @@ import Brute.Exceptions.MetricTypeNotCompatible;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -53,13 +54,13 @@ public class NumberOfAttemptsOverTime {
         if (currentMap.size() != 0) {
             elaspedTime = System.currentTimeMillis() - getExactTime(type, currentMap.lastKey());
         }
-
+        // todo: fix hourly something weird is happening ye?
         if (currentMap.isEmpty()) {
             currentMap.put(getFormattedTime(type), value);
             return;
         }
 
-        if (elaspedTime > getDurationMillis(type)) {
+        if (elaspedTime >= getDurationMillis(type)) {
             currentMap.put(getFormattedTime(type), value);
         } else {
             addAttempts(type, currentMap.lastKey(), value);
@@ -92,7 +93,6 @@ public class NumberOfAttemptsOverTime {
         if (type == TimeBasedType.WEEKLY) { return weekly.get(key); }
         throw new MetricTypeNotCompatible();
     }
-
 
     private long getExactTime(TimeBasedType type, String formattedTime){
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm");

@@ -15,10 +15,10 @@ public class BruteMetrics {
 
     public BruteMetrics(String directory) throws IOException {
         Gson gson = new Gson();
-
         JsonReader br = new JsonReader(new FileReader(directory));
-        BruteMetrics metrics = gson.fromJson(br, BruteMetrics.class);
-        this.metrics = metrics.GetMetrics();
+        BruteMetrics brute = gson.fromJson(br, BruteMetrics.class);
+
+        this.metrics = brute.GetMetrics();
     }
 
     public BruteMetricData GetMetrics() {
