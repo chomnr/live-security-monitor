@@ -145,7 +145,7 @@ public class NumberOfAttemptsOverTime {
         return weekly.lastEntry();
     }
 
-    public String getFormattedTime(TimeBasedType type) {
+    private String getFormattedTime(TimeBasedType type) {
         LocalDateTime date = LocalDateTime.now(ZoneOffset.UTC);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
 
@@ -158,47 +158,3 @@ public class NumberOfAttemptsOverTime {
         return date.format(formatter);
     }
 }
-
-/*
-        LocalDateTime date = LocalDateTime.now(ZoneOffset.UTC);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
-
-        NavigableMap<String, Integer> currentMap = hourly;
-
-        if (type == TimeBasedType.DAILY) {
-            formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-            currentMap = daily;
-        }
-
-        if (type == TimeBasedType.WEEKLY) {
-            formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-            currentMap = weekly;
-        }
-         */
-
- /*
-
-
-        try {
-            Integer attempts = getAttempts(type, key);
-            long elaspedTime = System.currentTimeMillis() - getTime(key);
-
-            if ( type == TimeBasedType.HOURLY) {
-                if (elaspedTime > (60 * 60 * 1000)) {
-
-                }
-            }
-        } catch (BruteException e) {
-            e.printStackTrace();
-        }*/
-
-   /*
-    private Integer getAttempts(String key) {
-        //LocalDateTime dateTime = LocalDateTime.parse(key, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
-        DateTimeFormatter hf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("MM-dd-yyyy HH");
-        DateTimeFormatter wf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-
-    }*/
