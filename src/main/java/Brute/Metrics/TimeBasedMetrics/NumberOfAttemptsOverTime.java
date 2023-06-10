@@ -31,7 +31,11 @@ public class NumberOfAttemptsOverTime {
     private NavigableMap<String, Integer> daily = new TreeMap<>();
     private NavigableMap<String, Integer> weekly = new TreeMap<>();
 
-    private static ZoneOffset ZONE_OFFSET = ZoneOffset.UTC;
+    private final static ZoneOffset ZONE_OFFSET = ZoneOffset.UTC;
+    private final static String[] DATE_TIME_FORMAT = {
+            "yyyy-MM-dd HH:mm:ss",
+            "yyyy-MM-dd"
+    };
 
     public NumberOfAttemptsOverTime() {}
 
@@ -139,9 +143,9 @@ public class NumberOfAttemptsOverTime {
     private String getFormattedTime(TimeBasedType type) {
         DateTimeFormatter formatter;
         if (type == TimeBasedType.DAILY || type == TimeBasedType.WEEKLY) {
-            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT[1]);
         } else {
-            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT[0]);
         }
         LocalDateTime currentTime = LocalDateTime.now(ZONE_OFFSET);
 
@@ -151,9 +155,9 @@ public class NumberOfAttemptsOverTime {
     private DateTimeFormatter getTimePattern(TimeBasedType type) {
         DateTimeFormatter formatter;
         if (type == TimeBasedType.DAILY || type == TimeBasedType.WEEKLY) {
-            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT[1]);
         } else {
-            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT[0]);
         }
         return formatter;
     }
