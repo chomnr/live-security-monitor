@@ -5,9 +5,7 @@ import Brute.Exceptions.MetricTypeNotCompatible;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -54,7 +52,7 @@ public class NumberOfAttemptsOverTime {
         if (currentMap.size() != 0) {
             elaspedTime = System.currentTimeMillis() - getExactTime(type, currentMap.lastKey());
         }
-        // todo: fix hourly something weird is happening ye?
+
         if (currentMap.isEmpty()) {
             currentMap.put(getFormattedTime(type), value);
             return;
@@ -94,29 +92,34 @@ public class NumberOfAttemptsOverTime {
         throw new MetricTypeNotCompatible();
     }
 
-    private long getExactTime(TimeBasedType type, String formattedTime){
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm");
+    private long getExactTime(TimeBasedType type, String formattedTime) {
+        DateTimeFormatter formatter = getTimePattern(type);
+        ZonedDateTime utcNow = ZonedDateTime.now(ZoneOffset.UTC);
+        LocalDate storedTime = LocalDate.parse(formattedTime, formatter);
+        Instant instant;
 
-        if (type == TimeBasedType.DAILY || type == TimeBasedType.WEEKLY) {
-            sdf = new SimpleDateFormat("MM-dd-yyyy");
+        if (type != TimeBasedType.HOURLY) {
+            instant = storedTime
+                    .atStartOfDay()
+                    .toInstant(ZoneOffset.UTC);
+        } else {
+            instant = LocalDateTime
+                    .parse(formattedTime, formatter)
+                    .toInstant(ZoneOffset.UTC);
         }
-        try {
-            Date date = sdf.parse(formattedTime);
-            return date.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return 0;
+
+        return instant.toEpochMilli();
     }
+
 
     private long getDurationMillis(TimeBasedType type) {
         switch (type) {
             case HOURLY:
-                return 60 * 60 * 1000;
+                return 60L * 60 * 1000;
             case DAILY:
-                return 24 * 60 * 60 * 1000;
+                return 24L * 60 * 60 * 1000;
             case WEEKLY:
-                return 24 * 7 * 60 * 60 * 1000;
+                return 24L * 7 * 60 * 60 * 1000;
             default:
                 return 0;
         }
@@ -129,19 +132,29 @@ public class NumberOfAttemptsOverTime {
         if (type == TimeBasedType.DAILY) {
             return daily;
         }
+
         return weekly;
     }
 
     private String getFormattedTime(TimeBasedType type) {
-        LocalDateTime date = LocalDateTime.now(ZoneOffset.UTC);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
+        DateTimeFormatter formatter;
+        if (type == TimeBasedType.DAILY || type == TimeBasedType.WEEKLY) {
+            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        } else {
+            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        }
+        LocalDateTime currentTime = LocalDateTime.now(ZoneOffset.UTC);
 
-        if (type == TimeBasedType.DAILY) {
-            formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        return formatter.format(currentTime);
+    }
+
+    private DateTimeFormatter getTimePattern(TimeBasedType type) {
+        DateTimeFormatter formatter;
+        if (type == TimeBasedType.DAILY || type == TimeBasedType.WEEKLY) {
+            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        } else {
+            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         }
-        if (type == TimeBasedType.WEEKLY) {
-            formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-        }
-        return date.format(formatter);
+        return formatter;
     }
 }
