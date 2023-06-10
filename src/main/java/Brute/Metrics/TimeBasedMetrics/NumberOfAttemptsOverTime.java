@@ -3,11 +3,10 @@ package Brute.Metrics.TimeBasedMetrics;
 import Brute.BruteException;
 import Brute.Exceptions.MetricTypeNotCompatible;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.time.*;
+
 
 
 import Brute.Metrics.TimeBasedMetrics.TimeBasedMetrics.TimeBasedType;
@@ -31,6 +30,8 @@ public class NumberOfAttemptsOverTime {
     private NavigableMap<String, Integer> hourly = new TreeMap<>();
     private NavigableMap<String, Integer> daily = new TreeMap<>();
     private NavigableMap<String, Integer> weekly = new TreeMap<>();
+
+    private static ZoneOffset ZONE_OFFSET = ZoneOffset.UTC;
 
     public NumberOfAttemptsOverTime() {}
 
@@ -94,18 +95,17 @@ public class NumberOfAttemptsOverTime {
 
     private long getExactTime(TimeBasedType type, String formattedTime) {
         DateTimeFormatter formatter = getTimePattern(type);
-        ZonedDateTime utcNow = ZonedDateTime.now(ZoneOffset.UTC);
         LocalDate storedTime = LocalDate.parse(formattedTime, formatter);
         Instant instant;
 
         if (type != TimeBasedType.HOURLY) {
             instant = storedTime
                     .atStartOfDay()
-                    .toInstant(ZoneOffset.UTC);
+                    .toInstant(ZONE_OFFSET);
         } else {
             instant = LocalDateTime
                     .parse(formattedTime, formatter)
-                    .toInstant(ZoneOffset.UTC);
+                    .toInstant(ZONE_OFFSET);
         }
 
         return instant.toEpochMilli();
@@ -143,7 +143,7 @@ public class NumberOfAttemptsOverTime {
         } else {
             formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         }
-        LocalDateTime currentTime = LocalDateTime.now(ZoneOffset.UTC);
+        LocalDateTime currentTime = LocalDateTime.now(ZONE_OFFSET);
 
         return formatter.format(currentTime);
     }
