@@ -1,15 +1,12 @@
 package Brute;
 
 import Brute.Metrics.BruteMetricData;
-import Brute.WebSocket.BruteServer;
+import com.google.gson.Gson;
 import main.BruteUtilities;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.List;
 
 import static java.nio.file.StandardWatchEventKinds.*;
 
@@ -31,9 +28,11 @@ public class BruteFileListener {
     @SuppressWarnings("unchecked")
     public void listen() throws IOException {
         WatchService watcher = FileSystems.getDefault().newWatchService();
+        String oldContents;
 
         if (file.exists()) {
             BruteUtilities.print("Attached to " + file.getName() + ".");
+            oldContents = new String(Files.readAllBytes(this.file.toPath()));
         } else {
             BruteUtilities.print("Unable to locate " + file.getName() + ".");
             return;
@@ -56,8 +55,15 @@ public class BruteFileListener {
                     if (kind == ENTRY_MODIFY) {
                         Path child = directory.resolve(fileName);
                         if (Files.isSameFile(child.toAbsolutePath(), this.file.toPath())) {
-                            if (log) {
-                                BruteUtilities.print("Logged an attempt.");
+                            // readAllBytes can throw a OutOfMemoryError if the file is
+                            // very large, due to the nature of this application you
+                            // should be able to just wipe the file once and while to
+                            // avoid hitting the limit.
+                            String newContents = new String(Files.readAllBytes(child));
+                            if (newContents.length() != 0 && oldContents.length() != 0) {
+                                if (!newContents.equals(oldContents)) {
+                                    oldContents = newContents;
+                                }
                             }
                         }
                     }
@@ -68,3 +74,5 @@ public class BruteFileListener {
         }
     }
 }
+//metrics.populate()
+//metrics.populate("ip", "username", "password", "protocol").
