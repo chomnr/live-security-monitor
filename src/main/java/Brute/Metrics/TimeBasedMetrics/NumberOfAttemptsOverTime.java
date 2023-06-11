@@ -31,7 +31,6 @@ public class NumberOfAttemptsOverTime {
     private NavigableMap<String, Integer> daily = new TreeMap<>();
     private NavigableMap<String, Integer> weekly = new TreeMap<>();
 
-    private final static ZoneOffset ZONE_OFFSET = ZoneOffset.UTC;
     private final static String[] DATE_TIME_FORMAT = {
             "yyyy-MM-dd HH:mm:ss",
             "yyyy-MM-dd"
@@ -43,10 +42,6 @@ public class NumberOfAttemptsOverTime {
         updateValue(TimeBasedType.HOURLY, value);
         updateValue(TimeBasedType.DAILY, value);
         updateValue(TimeBasedType.WEEKLY, value);
-    }
-
-    public void insert(TimeBasedType type,  int value) {
-        updateValue(type, value);
     }
 
     private void updateValue(TimeBasedType type, int value) {
@@ -105,11 +100,11 @@ public class NumberOfAttemptsOverTime {
         if (type != TimeBasedType.HOURLY) {
             instant = storedTime
                     .atStartOfDay()
-                    .toInstant(ZONE_OFFSET);
+                    .toInstant(TimeBasedMetrics.ZONE_OFFSET);
         } else {
             instant = LocalDateTime
                     .parse(formattedTime, formatter)
-                    .toInstant(ZONE_OFFSET);
+                    .toInstant(TimeBasedMetrics.ZONE_OFFSET);
         }
 
         return instant.toEpochMilli();
@@ -147,7 +142,7 @@ public class NumberOfAttemptsOverTime {
         } else {
             formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT[0]);
         }
-        LocalDateTime currentTime = LocalDateTime.now(ZONE_OFFSET);
+        LocalDateTime currentTime = LocalDateTime.now(TimeBasedMetrics.ZONE_OFFSET);
 
         return formatter.format(currentTime);
     }
