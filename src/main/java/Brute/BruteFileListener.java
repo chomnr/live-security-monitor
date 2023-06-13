@@ -1,7 +1,6 @@
 package Brute;
 
 import Brute.Metrics.BruteMetricData;
-import com.google.gson.Gson;
 import main.BruteUtilities;
 
 import java.io.File;
@@ -15,7 +14,6 @@ public class BruteFileListener {
     private Path directory;
     private File file;
     private Boolean log;
-
     private BruteMetricData metrics;
 
     public BruteFileListener(String directory, String file,  boolean log, BruteMetricData metrics) {
@@ -28,8 +26,8 @@ public class BruteFileListener {
     @SuppressWarnings("unchecked")
     public void listen() throws IOException {
         WatchService watcher = FileSystems.getDefault().newWatchService();
-        String oldContents;
 
+        String oldContents;
         if (file.exists()) {
             BruteUtilities.print("Attached to " + file.getName() + ".");
             oldContents = new String(Files.readAllBytes(this.file.toPath()));
@@ -44,14 +42,11 @@ public class BruteFileListener {
                 key = directory.register(watcher, ENTRY_MODIFY, ENTRY_CREATE);
                 for (WatchEvent<?> event : key.pollEvents()) {
                     WatchEvent.Kind<?> kind = event.kind();
-
                     if (kind == OVERFLOW) {
                         continue;
                     }
-
                     WatchEvent<Path> ev = (WatchEvent<Path>) event;
                     Path fileName = ev.context();
-
                     if (kind == ENTRY_MODIFY) {
                         Path child = directory.resolve(fileName);
                         if (Files.isSameFile(child.toAbsolutePath(), this.file.toPath())) {
@@ -62,6 +57,11 @@ public class BruteFileListener {
                             String newContents = new String(Files.readAllBytes(child));
                             if (newContents.length() != 0 && oldContents.length() != 0) {
                                 if (!newContents.equals(oldContents)) {
+                                    // populate json here.
+                                    // metrics.getTimeBasedMetrics().populate();
+                                    metrics.getTimeBasedMetrics()
+                                            .populate();
+                                    // BruteUtilities.print("Detected an attempted BruteForce, updating BruteMetrics.");
                                     oldContents = newContents;
                                 }
                             }
@@ -74,5 +74,3 @@ public class BruteFileListener {
         }
     }
 }
-//metrics.populate()
-//metrics.populate("ip", "username", "password", "protocol").

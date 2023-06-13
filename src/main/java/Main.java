@@ -2,7 +2,6 @@ import Brute.BruteException;
 import Brute.BruteFileListener;
 import Brute.Metrics.BruteMetrics;
 import Brute.WebSocket.BruteServer;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 
