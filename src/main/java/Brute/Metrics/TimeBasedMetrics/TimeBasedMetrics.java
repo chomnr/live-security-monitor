@@ -9,8 +9,8 @@ import java.time.ZoneOffset;
 public class TimeBasedMetrics implements AutoPopulate {
 
     public final static ZoneOffset ZONE_OFFSET = ZoneOffset.UTC;
-
     private final static int DEFAULT_INCREMENT_VALUE = 1;
+
     private NumberOfAttemptsOverTime numberOfAttemptsOverTime;
     private AttackFrequencyByDayOfWeek attackFrequencyByDayOfWeek;
 
