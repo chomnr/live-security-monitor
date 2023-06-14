@@ -6,6 +6,8 @@ import main.BruteUtilities;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.nio.file.StandardWatchEventKinds.*;
 
@@ -15,6 +17,7 @@ public class BruteFileListener {
     private File file;
     private Boolean log;
     private BruteMetricData metrics;
+    private Path path;
 
     public BruteFileListener(String directory, String file,  boolean log, BruteMetricData metrics) {
         this.directory = Paths.get(directory);
@@ -47,6 +50,7 @@ public class BruteFileListener {
                     }
                     WatchEvent<Path> ev = (WatchEvent<Path>) event;
                     Path fileName = ev.context();
+                    if (path == null) { path = fileName; }
                     if (kind == ENTRY_MODIFY) {
                         Path child = directory.resolve(fileName);
                         if (Files.isSameFile(child.toAbsolutePath(), this.file.toPath())) {
@@ -57,11 +61,8 @@ public class BruteFileListener {
                             String newContents = new String(Files.readAllBytes(child));
                             if (newContents.length() != 0 && oldContents.length() != 0) {
                                 if (!newContents.equals(oldContents)) {
-                                    // populate json here.
-                                    // metrics.getTimeBasedMetrics().populate();
                                     metrics.getTimeBasedMetrics()
                                             .populate();
-                                    // BruteUtilities.print("Detected an attempted BruteForce, updating BruteMetrics.");
                                     oldContents = newContents;
                                 }
                             }
@@ -71,6 +72,72 @@ public class BruteFileListener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private List<LogFile> parseWholeLog() {
+        List<String> logContents = getContentsOfLog();
+        List<LogFile> logFileList = new ArrayList<>();
+
+        if (!logContents.isEmpty()) {
+            for (String entry : logContents) {
+                LogFile file = parseLogEntry(entry);
+                assert file != null;
+                logFileList.add(file);
+            }
+            return logFileList;
+        }
+        return logFileList;
+    }
+
+    private LogFile parseLogEntry(String entry) {
+        if ( entry.contains(" ") ) {
+            String[] parts = entry.split(" ");
+            return new LogFile(parts[0], parts[1], parts[2], parts[3]);
+        }
+        return null;
+    }
+
+    private List<String> getContentsOfLog() {
+        try {
+            return Files.readAllLines(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    public void parseSingleFile(String s) {
+
+    }
+
+    public static class LogFile {
+        private String username;
+        private String password;
+        private String protocol;
+        private String hostname;
+
+        public LogFile(String username, String password, String protocol, String hostname) {
+            this.username = username;
+            this.password = password;
+            this.protocol = protocol;
+            this.hostname = hostname;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public String getProtocol() {
+            return protocol;
+        }
+
+        public String getHostname() {
+            return hostname;
         }
     }
 }
