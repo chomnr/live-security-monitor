@@ -50,9 +50,9 @@ public class BruteFileListener {
                     }
                     WatchEvent<Path> ev = (WatchEvent<Path>) event;
                     Path fileName = ev.context();
-                    if (path == null) { path = fileName; }
                     if (kind == ENTRY_MODIFY) {
                         Path child = directory.resolve(fileName);
+                        if (path == null) { path = child; }
                         if (Files.isSameFile(child.toAbsolutePath(), this.file.toPath())) {
                             // readAllBytes can throw a OutOfMemoryError if the file is
                             // very large, due to the nature of this application you
@@ -105,10 +105,6 @@ public class BruteFileListener {
             e.printStackTrace();
         }
         return new ArrayList<>();
-    }
-
-    public void parseSingleFile(String s) {
-
     }
 
     public static class LogFile {
