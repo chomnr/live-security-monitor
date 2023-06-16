@@ -1,30 +1,44 @@
 package Brute.Metrics;
 
+import Brute.Constants;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
-import java.io.FileReader;
-import java.io.IOException;
+import com.google.gson.stream.JsonWriter;
+
+import java.io.*;
 
 public class BruteMetrics {
 
-    private final BruteMetricData metrics;
+    private BruteMetricData metrics;
 
     public BruteMetrics() {
         metrics =  new BruteMetricData();
     }
 
-    public BruteMetrics(String directory) throws IOException {
-        Gson gson = new Gson();
-        JsonReader br = new JsonReader(new FileReader(directory));
-        BruteMetrics brute = gson.fromJson(br, BruteMetrics.class);
+    public BruteMetrics(String fileLocation) throws IOException {
+        JsonReader jr = new JsonReader(new FileReader(fileLocation));
 
-        this.metrics = brute.GetMetrics();
+        Gson gson = new Gson();
+        BruteMetrics data = gson.fromJson(jr, BruteMetrics.class);
+        metrics = data.getMetrics();
     }
 
-    public BruteMetricData GetMetrics() {
+    public BruteMetricData getMetrics() {
         return metrics;
     }
+
+    public void saveMetrics() throws FileNotFoundException {
+        try {
+            JsonWriter jsonWriter = new JsonWriter(new FileWriter(Constants.METRIC_FILE_LOCATION));
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            jsonWriter.jsonValue(gson.toJson(this));
+            jsonWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
 //          //brutemeterics.get(file).populate().auto();l
 //                            // automatically populates all the necessary metrics
 //                            // inside the .json or database hmm.
