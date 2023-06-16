@@ -1,6 +1,7 @@
 package Brute;
 
 import Brute.Metrics.BruteMetricData;
+import Brute.Metrics.BruteMetrics;
 import main.BruteUtilities;
 
 import java.io.File;
@@ -15,14 +16,13 @@ public class BruteFileListener {
 
     private Path directory;
     private File file;
-    private Boolean log;
-    private BruteMetricData metrics;
+    private BruteMetrics metrics;
     private Path path;
+    private List<LogEntry> logEntries;
 
-    public BruteFileListener(String directory, String file,  boolean log, BruteMetricData metrics) {
+    public BruteFileListener(String directory, String file, BruteMetrics metrics) {
         this.directory = Paths.get(directory);
         this.file = new File(directory + file);
-        this.log = log;
         this.metrics = metrics;
     }
 
@@ -51,18 +51,23 @@ public class BruteFileListener {
                     WatchEvent<Path> ev = (WatchEvent<Path>) event;
                     Path fileName = ev.context();
                     if (kind == ENTRY_MODIFY) {
-                        Path child = directory.resolve(fileName);
-                        if (path == null) { path = child; }
-                        if (Files.isSameFile(child.toAbsolutePath(), this.file.toPath())) {
+                        path = directory.resolve(fileName);
+                        if (logEntries == null) { logEntries = parseWholeLog(); }
+                        if (Files.isSameFile(path.toAbsolutePath(), this.file.toPath())) {
                             // readAllBytes can throw a OutOfMemoryError if the file is
                             // very large, due to the nature of this application you
                             // should be able to just wipe the file once and while to
                             // avoid hitting the limit.
-                            String newContents = new String(Files.readAllBytes(child));
+                            String newContents = new String(Files.readAllBytes(path));
                             if (newContents.length() != 0 && oldContents.length() != 0) {
                                 if (!newContents.equals(oldContents)) {
-                                    metrics.getTimeBasedMetrics()
-                                            .populate();
+                                    /*
+                                        metrics.GetMetrics().getTimeBasedMetrics()
+                                                .populate();
+                                        metrics.SaveMetrics();
+                                     */
+                                    metrics.getMetrics().getTimeBasedMetrics().populate();
+                                    metrics.saveMetrics();
                                     oldContents = newContents;
                                 }
                             }
@@ -75,13 +80,13 @@ public class BruteFileListener {
         }
     }
 
-    private List<LogFile> parseWholeLog() {
+    private List<LogEntry> parseWholeLog() {
         List<String> logContents = getContentsOfLog();
-        List<LogFile> logFileList = new ArrayList<>();
+        List<LogEntry> logFileList = new ArrayList<>();
 
         if (!logContents.isEmpty()) {
             for (String entry : logContents) {
-                LogFile file = parseLogEntry(entry);
+                LogEntry file = parseLogEntry(entry);
                 assert file != null;
                 logFileList.add(file);
             }
@@ -90,10 +95,10 @@ public class BruteFileListener {
         return logFileList;
     }
 
-    private LogFile parseLogEntry(String entry) {
+    private LogEntry parseLogEntry(String entry) {
         if ( entry.contains(" ") ) {
             String[] parts = entry.split(" ");
-            return new LogFile(parts[0], parts[1], parts[2], parts[3]);
+            return new LogEntry(parts[0], parts[1], parts[2], parts[3]);
         }
         return null;
     }
@@ -107,13 +112,13 @@ public class BruteFileListener {
         return new ArrayList<>();
     }
 
-    public static class LogFile {
+    public static class LogEntry {
         private String username;
         private String password;
         private String protocol;
         private String hostname;
 
-        public LogFile(String username, String password, String protocol, String hostname) {
+        public LogEntry(String username, String password, String protocol, String hostname) {
             this.username = username;
             this.password = password;
             this.protocol = protocol;
