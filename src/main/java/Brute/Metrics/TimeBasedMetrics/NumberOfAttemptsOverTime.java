@@ -1,6 +1,7 @@
 package Brute.Metrics.TimeBasedMetrics;
 
 import Brute.BruteException;
+import Brute.Constants;
 import Brute.Exceptions.MetricTypeNotCompatible;
 
 import java.time.format.DateTimeFormatter;
@@ -100,11 +101,11 @@ public class NumberOfAttemptsOverTime {
         if (type != TimeBasedType.HOURLY) {
             instant = storedTime
                     .atStartOfDay()
-                    .toInstant(TimeBasedMetrics.ZONE_OFFSET);
+                    .toInstant(Constants.ZONE_OFFSET);
         } else {
             instant = LocalDateTime
                     .parse(formattedTime, formatter)
-                    .toInstant(TimeBasedMetrics.ZONE_OFFSET);
+                    .toInstant(Constants.ZONE_OFFSET);
         }
 
         return instant.toEpochMilli();
@@ -142,7 +143,7 @@ public class NumberOfAttemptsOverTime {
         } else {
             formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT[0]);
         }
-        LocalDateTime currentTime = LocalDateTime.now(TimeBasedMetrics.ZONE_OFFSET);
+        LocalDateTime currentTime = LocalDateTime.now(Constants.ZONE_OFFSET);
 
         return formatter.format(currentTime);
     }

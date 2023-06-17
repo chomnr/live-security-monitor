@@ -1,5 +1,7 @@
 package Brute.Metrics.TimeBasedMetrics;
 
+import Brute.Constants;
+
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.NavigableMap;
@@ -11,7 +13,7 @@ public class AttackTotalByDayOfWeek {
     public AttackTotalByDayOfWeek() {}
 
     public void insert(int value) {
-        ZonedDateTime now = LocalDate.now().atStartOfDay().atZone(TimeBasedMetrics.ZONE_OFFSET);
+        ZonedDateTime now = LocalDate.now().atStartOfDay().atZone(Constants.ZONE_OFFSET);
         String day = now.getDayOfWeek().toString();
 
         validateDay(day);
