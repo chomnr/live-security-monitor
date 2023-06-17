@@ -1,8 +1,6 @@
 package Brute.Metrics.TimeBasedMetrics;
 
 import Brute.Metrics.AutoPopulate;
-import Brute.Metrics.BruteMetricData;
-import Brute.Metrics.BruteMetrics;
 
 import java.time.ZoneOffset;
 
@@ -12,31 +10,31 @@ public class TimeBasedMetrics implements AutoPopulate {
     private final static int DEFAULT_INCREMENT_VALUE = 1;
 
     private NumberOfAttemptsOverTime numberOfAttemptsOverTime;
-    private AttackFrequencyByDayOfWeek attackFrequencyByDayOfWeek;
+    private AttackTotalByDayOfWeek attackTotalByDayOfWeek;
 
     public enum TimeBasedType {
         HOURLY, DAILY, WEEKLY
     }
 
     public enum TimeBasedTypeExtra {
-        ATTACKFREQUENCYBYDAYOFWEEK, ATTACKFREQUENCYBYTIMEOFDAY
+        ATTACKFREQUENCYBYDAYOFWEEK, TOTALATTACKSBYDAYOFWEEK
     }
 
     public TimeBasedMetrics() {
         numberOfAttemptsOverTime = new NumberOfAttemptsOverTime();
-        attackFrequencyByDayOfWeek = new AttackFrequencyByDayOfWeek();
+        attackTotalByDayOfWeek = new AttackTotalByDayOfWeek();
     }
 
     public NumberOfAttemptsOverTime getNumberOfAttemptsOverTime() {
         return numberOfAttemptsOverTime;
     }
-    public AttackFrequencyByDayOfWeek getAttackFrequencyByDayOfWeek() { return attackFrequencyByDayOfWeek; }
+    public AttackTotalByDayOfWeek getAttackTotalByDayOfWeek() { return attackTotalByDayOfWeek; }
 
     @Override
     public void populate() {
         getNumberOfAttemptsOverTime()
                 .insert(DEFAULT_INCREMENT_VALUE);
-        getAttackFrequencyByDayOfWeek()
+        getAttackTotalByDayOfWeek()
                 .insert(DEFAULT_INCREMENT_VALUE);
     }
 
@@ -44,7 +42,7 @@ public class TimeBasedMetrics implements AutoPopulate {
     public void populate(int value) {
         getNumberOfAttemptsOverTime()
                 .insert(value);
-        getAttackFrequencyByDayOfWeek()
+        getAttackTotalByDayOfWeek()
                 .insert(value);
     }
 }

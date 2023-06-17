@@ -14,13 +14,13 @@ import Brute.Metrics.TimeBasedMetrics.TimeBasedMetrics.TimeBasedType;
 {
    "numberOfAttemptsOverTime":{
       "hourly":{
-         "2023-06-04T00:00:00":10
+         "2023-06-04 00:00:00
       },
       "daily":{
-         "2023-06-04":50
+         "2023-06-04": 50
       },
       "weekly":{
-         "2023-05-29":200
+         "2023-05-29": 200
       }
    }
 }

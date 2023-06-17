@@ -1,16 +1,14 @@
 package Brute.Metrics.TimeBasedMetrics;
 
 import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
-public class AttackFrequencyByDayOfWeek {
-
+public class AttackTotalByDayOfWeek {
     NavigableMap<String, Integer> days = new TreeMap<>();
 
-    public AttackFrequencyByDayOfWeek() {}
+    public AttackTotalByDayOfWeek() {}
 
     public void insert(int value) {
         ZonedDateTime now = LocalDate.now().atStartOfDay().atZone(TimeBasedMetrics.ZONE_OFFSET);
