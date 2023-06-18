@@ -1,10 +1,6 @@
 package Brute.Metrics.TimeBasedMetrics;
 
-import Brute.Metrics.AutoPopulate;
-
-import java.time.ZoneOffset;
-
-public class TimeBasedMetrics implements AutoPopulate {
+public class TimeBasedMetrics {
 
     private final static int DEFAULT_INCREMENT_VALUE = 1; // no reason why this should not be 1.
 
@@ -29,7 +25,6 @@ public class TimeBasedMetrics implements AutoPopulate {
     }
     public AttackTotalByDayOfWeek getAttackTotalByDayOfWeek() { return attackTotalByDayOfWeek; }
 
-    @Override
     public void populate() {
         getNumberOfAttemptsOverTime()
                 .insert(DEFAULT_INCREMENT_VALUE);
@@ -37,7 +32,6 @@ public class TimeBasedMetrics implements AutoPopulate {
                 .insert(DEFAULT_INCREMENT_VALUE);
     }
 
-    @Override
     public void populate(int value) {
         getNumberOfAttemptsOverTime()
                 .insert(value);
