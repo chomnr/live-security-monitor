@@ -11,10 +11,6 @@ public class TimeBasedMetrics {
         HOURLY, DAILY, WEEKLY
     }
 
-    public enum TimeBasedTypeExtra {
-        ATTACKFREQUENCYBYDAYOFWEEK, TOTALATTACKSBYDAYOFWEEK
-    }
-
     public TimeBasedMetrics() {
         numberOfAttemptsOverTime = new NumberOfAttemptsOverTime();
         attackTotalByDayOfWeek = new AttackTotalByDayOfWeek();
