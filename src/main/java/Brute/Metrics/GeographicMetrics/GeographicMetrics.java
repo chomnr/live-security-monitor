@@ -5,10 +5,6 @@ public class GeographicMetrics {
     private AttackOriginByCountry attackOriginByCountry;
     private AttackOriginByIp attackOriginByIp;
 
-    public enum GeographicType {
-        COUNTRY, IP
-    }
-
     public GeographicMetrics() {
         attackOriginByCountry = new AttackOriginByCountry();
         attackOriginByIp = new AttackOriginByIp();
