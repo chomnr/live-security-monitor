@@ -90,7 +90,7 @@ public class NumberOfAttemptsOverTime {
         if (type == TimeBasedType.HOURLY) { return hourly.get(key); }
         if (type == TimeBasedType.DAILY) { return daily.get(key); }
         if (type == TimeBasedType.WEEKLY) { return weekly.get(key); }
-        throw new MetricTypeNotCompatible();
+        throw new MetricTypeNotCompatible(); // redundant because we're using enums.
     }
 
     private long getExactTime(TimeBasedType type, String formattedTime) {
