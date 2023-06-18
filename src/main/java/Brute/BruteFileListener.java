@@ -62,10 +62,16 @@ public class BruteFileListener {
                                 oldContents = newContents;
                                 // Latest Entry
                                 LogEntry latest = logEntries.get(logEntries.size()-1);
+
                                 // GeographicMetrics
                                 metrics.getMetrics().getGeographicMetrics().populate(latest.getHostname());
+
                                 // TimeBasedMetrics
                                 metrics.getMetrics().getTimeBasedMetrics().populate();
+
+                                // ProtocolBasedMetrics
+                                metrics.getMetrics().getProtocolBasedMetrics().populate(latest.getProtocol());
+
                                 metrics.saveMetrics();
                                 logEntries = parseWholeLog();
                             }
