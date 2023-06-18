@@ -5,13 +5,15 @@ import Brute.Metrics.BruteMetrics;
 import Brute.WebSocket.BruteServer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import main.BruteUtilities;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
-    public static void main(String[] args) throws BruteException, IOException {
+    public static void main(String[] args) throws BruteException, IOException, InterruptedException {
         // Creates a LOG_FILE and METRIC_FILE_LOCATION.
         // If they do not exist.
         loadPrerequisites();
@@ -34,14 +36,29 @@ public class Main {
 
 
     private static void loadPrerequisites() throws IOException {
-        File metricsFile = new File(Constants.METRIC_FILE_LOCATION);
-        File logFile = new File(Constants.LOG_FILE_LOCATION);
-        if (metricsFile.createNewFile()) {
+        createLogFile();
+        createMetricsFile();
+    }
+
+    private static boolean createMetricsFile() throws IOException {
+        File metricFile = new File(Constants.METRIC_FILE_LOCATION);
+        if (!metricFile.exists()) {
+            boolean createFile = metricFile.createNewFile();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             FileWriter writer = new FileWriter(Constants.METRIC_FILE_LOCATION);
             writer.write(gson.toJson(new BruteMetrics()));
-            writer.flush();
+            writer.close();
+            return true;
         }
-        if (logFile.createNewFile());
+        return false;
+    }
+
+    private static boolean createLogFile() throws IOException {
+        File logFile = new File(Constants.LOG_FILE_LOCATION);
+        if (!logFile.exists()) {
+            boolean createFile = logFile.createNewFile();
+            return true;
+        }
+        return false;
     }
 }
