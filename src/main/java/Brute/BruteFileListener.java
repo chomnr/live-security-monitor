@@ -65,8 +65,6 @@ public class BruteFileListener {
                                 oldContents = newContents;
                                 // Latest Entry
                                 LogEntry latest = logEntries.get(logEntries.size()-1);
-                                System.out.println(logEntries.size());
-                                System.out.println(latest.getHostname());
                                 // GeographicMetrics
                                 metrics.getMetrics().getGeographicMetrics().populate(latest.getHostname());
                                 // TimeBasedMetrics
