@@ -2,6 +2,8 @@ package Brute.Metrics.GeographicMetrics;
 
 public class GeographicMetrics {
 
+    private final static int DEFAULT_INCREMENT_VALUE = 1;
+
     private AttackOriginByCountry attackOriginByCountry;
     private AttackOriginByIp attackOriginByIp;
 
@@ -18,8 +20,8 @@ public class GeographicMetrics {
     }
 
     public void populate(String ip) {
-        getAttackOriginByCountry().addAttacker(ip, 1);
-        getAttackOriginByIp().addAttacker(ip, 1);
+        getAttackOriginByCountry().addAttacker(ip, DEFAULT_INCREMENT_VALUE);
+        getAttackOriginByIp().addAttacker(ip, DEFAULT_INCREMENT_VALUE);
     }
 
     public void populate(String ip, int amount) {
