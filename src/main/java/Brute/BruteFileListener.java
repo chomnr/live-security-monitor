@@ -2,8 +2,10 @@ package Brute;
 
 import Brute.Metrics.BruteMetricData;
 import Brute.Metrics.BruteMetrics;
+import com.fasterxml.jackson.databind.JsonNode;
 import main.BruteUtilities;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -59,17 +61,15 @@ public class BruteFileListener {
                             // should be able to just wipe the file once and while to
                             // avoid hitting the limit.
                             String newContents = new String(Files.readAllBytes(path));
-                            if (newContents.length() != 0 && oldContents.length() != 0) {
-                                if (!newContents.equals(oldContents)) {
-                                    /*
-                                        metrics.GetMetrics().getTimeBasedMetrics()
-                                                .populate();
-                                        metrics.SaveMetrics();
-                                     */
-                                    metrics.getMetrics().getTimeBasedMetrics().populate();
-                                    metrics.saveMetrics();
-                                    oldContents = newContents;
-                                }
+                            if (!newContents.equals(oldContents)) {
+                                // Latest Entry
+                                LogEntry latest = logEntries.get(0);
+                                // GeographicMetrics
+                                metrics.getMetrics().getGeographicMetrics().populate(latest.getHostname());
+                                // TimeBasedMetrics
+                                metrics.getMetrics().getTimeBasedMetrics().populate();
+                                metrics.saveMetrics();
+                                oldContents = newContents;
                             }
                         }
                     }
@@ -115,14 +115,14 @@ public class BruteFileListener {
     public static class LogEntry {
         private String username;
         private String password;
-        private String protocol;
         private String hostname;
+        private String protocol;
 
-        public LogEntry(String username, String password, String protocol, String hostname) {
+        public LogEntry(String username, String password, String hostname, String protocol) {
             this.username = username;
             this.password = password;
-            this.protocol = protocol;
             this.hostname = hostname;
+            this.protocol = protocol;
         }
 
         public String getUsername() {
