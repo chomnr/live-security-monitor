@@ -1,11 +1,8 @@
 package Brute;
 
-import Brute.Metrics.BruteMetricData;
 import Brute.Metrics.BruteMetrics;
-import com.fasterxml.jackson.databind.JsonNode;
 import main.BruteUtilities;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
