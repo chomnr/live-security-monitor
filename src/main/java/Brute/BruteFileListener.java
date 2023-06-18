@@ -54,22 +54,25 @@ public class BruteFileListener {
                     Path fileName = ev.context();
                     if (kind == ENTRY_MODIFY) {
                         path = directory.resolve(fileName);
-                        if (logEntries == null) { logEntries = parseWholeLog(); }
                         if (Files.isSameFile(path.toAbsolutePath(), this.file.toPath())) {
+                            logEntries = parseWholeLog();
                             // readAllBytes can throw a OutOfMemoryError if the file is
                             // very large, due to the nature of this application you
                             // should be able to just wipe the file once and while to
                             // avoid hitting the limit.
                             String newContents = new String(Files.readAllBytes(path));
                             if (!newContents.equals(oldContents)) {
+                                oldContents = newContents;
                                 // Latest Entry
-                                LogEntry latest = logEntries.get(0);
+                                LogEntry latest = logEntries.get(logEntries.size()-1);
+                                System.out.println(logEntries.size());
+                                System.out.println(latest.getHostname());
                                 // GeographicMetrics
                                 metrics.getMetrics().getGeographicMetrics().populate(latest.getHostname());
                                 // TimeBasedMetrics
                                 metrics.getMetrics().getTimeBasedMetrics().populate();
                                 metrics.saveMetrics();
-                                oldContents = newContents;
+                                logEntries = parseWholeLog();
                             }
                         }
                     }
