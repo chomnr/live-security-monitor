@@ -12,10 +12,12 @@ public class BruteException extends Throwable {
     private String message;
     private String occurrence;
 
+    private String PREFIX = "BruteException:";
+
     public BruteException(int code, String name, String message){
         this.code = code;
         this.name = name;
-        this.message = GetFormattedExceptionMessage(message, true);
+        this.message = GetFormattedExceptionMessage(message, false);
     }
 
     public final int GetCode(){
@@ -38,19 +40,19 @@ public class BruteException extends Throwable {
     }
 
     public final void printStackTrace() {
-        BruteUtilities.print(name + " " + message);
+       System.out.println(this.message);
     }
 
     private String GetFormattedExceptionMessage(String message, boolean inDetail) {
         StringBuilder sb = new StringBuilder();
         if (inDetail) {
-            sb.append(BruteUtilities.PREFIX);
-            sb.append(" ");
             sb.append(GetOccurrence());
+            sb.append(" ");
+            sb.append(PREFIX);
             sb.append(" ");
             sb.append(message);
         } else {
-            sb.append(BruteUtilities.PREFIX);
+            sb.append(PREFIX);
             sb.append(" ");
             sb.append(message);
         }
