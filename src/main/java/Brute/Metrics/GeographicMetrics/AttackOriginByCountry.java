@@ -7,9 +7,11 @@ import com.maxmind.db.Reader;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class AttackOriginByCountry {
 
@@ -19,10 +21,11 @@ public class AttackOriginByCountry {
 
     public AttackOriginByCountry() {
         //TODO: replace c:// soon just hacky solution..
-        ipToCountryFile = Paths.get(Thread.currentThread().getContextClassLoader().getResource(Constants.COUNTRY_FILE_LOCATION).getPath().replace("/C:", ""));
         try {
+            URI uri = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource(Constants.COUNTRY_FILE_LOCATION)).toURI();
+            ipToCountryFile = Paths.get(uri);
             ipReader = new Reader(ipToCountryFile.toFile(), Reader.FileMode.MEMORY_MAPPED);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
