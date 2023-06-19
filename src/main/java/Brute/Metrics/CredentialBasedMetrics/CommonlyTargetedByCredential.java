@@ -1,7 +1,5 @@
 package Brute.Metrics.CredentialBasedMetrics;
 
-import Brute.Exceptions.MetricTypeNotCompatible;
-import Brute.Metrics.ProtocolBasedMetrics.ProtocolBasedMetrics;
 import Brute.Metrics.CredentialBasedMetrics.CredentialBasedMetrics.CredentialBasedType;
 
 
