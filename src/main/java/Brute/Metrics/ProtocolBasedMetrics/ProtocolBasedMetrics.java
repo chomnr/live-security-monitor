@@ -13,7 +13,7 @@ public class ProtocolBasedMetrics {
     private DistributionOfAttackProtocols distributionOfAttackProtocols;
 
     public enum ProtocolBasedType {
-        SSH
+        SSH, UNKNOWN
     }
 
     public ProtocolBasedMetrics() {

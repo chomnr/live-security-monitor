@@ -14,12 +14,8 @@ public class DistributionOfAttackProtocols {
     public DistributionOfAttackProtocols() {}
 
     public void insert(String type, int amount) {
-        try {
-            ProtocolBasedType protocolType = getProtocolByName(type);
-            addAttempts(protocolType, amount);
-        } catch (BruteException e) {
-            e.printStackTrace();
-        }
+        ProtocolBasedType protocolType = getProtocolByName(type);
+        addAttempts(protocolType, amount);
     }
     public void insert(ProtocolBasedType type, int amount) {
         addAttempts(type, amount);
@@ -39,11 +35,12 @@ public class DistributionOfAttackProtocols {
         return protocols.get(getNameOfProtocol(type));
     }
 
-    private ProtocolBasedType getProtocolByName(String protocol) throws MetricTypeNotCompatible {
+    private ProtocolBasedType getProtocolByName(String protocol) {
         if (protocol.equalsIgnoreCase("sshd")) {
             return ProtocolBasedType.SSH;
         }
-        throw new MetricTypeNotCompatible();
+        // or return UNKNOWN
+        return ProtocolBasedType.UNKNOWN;
     }
 
     private String getNameOfProtocol(ProtocolBasedType type) {
