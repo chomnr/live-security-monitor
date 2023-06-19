@@ -118,6 +118,7 @@ public class BruteFileListener {
             String[] parts = entry.split(" ");
             if (parts.length < 4) {
                 // Prevents an empty username & password from messing up the data.
+                // Forgot if PAM handles this it probably does.
                 entry = "  " + entry;
                 parts = entry.split(" ");
             }
