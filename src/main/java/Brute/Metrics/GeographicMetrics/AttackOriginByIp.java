@@ -31,6 +31,10 @@ public class AttackOriginByIp {
         return ips.get(country);
     }
 
+    /*
+        Snippet taken from:
+        https://stackoverflow.com/questions/4581877/validating-ipv4-string-in-java
+    */
     private boolean isValidIpAddress(String ip) {
         try {
             if ( ip == null || ip.isEmpty() ) {
