@@ -1,7 +1,6 @@
 package Brute;
 
 import Brute.Metrics.BruteMetrics;
-import main.BruteUtilities;
 
 import java.io.File;
 import java.io.IOException;

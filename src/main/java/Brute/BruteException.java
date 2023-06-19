@@ -1,7 +1,5 @@
 package Brute;
 
-import main.BruteUtilities;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
