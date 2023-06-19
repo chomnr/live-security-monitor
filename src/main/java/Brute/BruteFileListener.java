@@ -63,6 +63,20 @@ public class BruteFileListener {
                                 // Latest Entry
                                 LogEntry latest = logEntries.get(logEntries.size()-1);
 
+                                // We do not want empty fields but still log the rest of the data.
+                                if (!latest.getUsername().isBlank() &&
+                                        !latest.getPassword().isBlank() &&
+                                        !latest.getHostname().isBlank() &&
+                                        !latest.getProtocol().isBlank()) {
+                                    if (!latest.getUsername().isEmpty() ||
+                                            !latest.getPassword().isEmpty() ||
+                                            !latest.getHostname().isEmpty() ||
+                                            !latest.getProtocol().isEmpty()) {
+                                        //CredentialBasedMetrics
+                                        metrics.getMetrics().getCredentialBasedMetrics().populate(latest.getUsername(), latest.getPassword());
+                                    }
+                                }
+
                                 // GeographicMetrics
                                 metrics.getMetrics().getGeographicMetrics().populate(latest.getHostname());
 
@@ -102,6 +116,11 @@ public class BruteFileListener {
     private LogEntry parseLogEntry(String entry) {
         if ( entry.contains(" ") ) {
             String[] parts = entry.split(" ");
+            if (parts.length < 4) {
+                // Prevents an empty username & password from messing up the data.
+                entry = "  " + entry;
+                parts = entry.split(" ");
+            }
             return new LogEntry(parts[0], parts[1], parts[2], parts[3]);
         }
         return null;
