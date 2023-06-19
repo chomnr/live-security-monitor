@@ -38,8 +38,3 @@ public class BruteMetrics {
         }
     }
 }
-
-//          //brutemeterics.get(file).populate().auto();l
-//                            // automatically populates all the necessary metrics
-//                            // inside the .json or database hmm.
-// BruteMetrics<T: MetricType>
