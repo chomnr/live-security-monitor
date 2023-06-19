@@ -3,7 +3,6 @@ package Brute.Metrics.CredentialBasedMetrics;
 public class CredentialBasedMetrics {
 
     private CommonlyTargetedByCredential commonlyTargetedByCredential;
-    private CommonlyTargetedByCombination commonlyTargetedByCombination;
 
     public enum CredentialBasedType {
         USERNAME, PASSWORD, COMBINATION
@@ -11,16 +10,11 @@ public class CredentialBasedMetrics {
 
     public CredentialBasedMetrics () {
         commonlyTargetedByCredential = new CommonlyTargetedByCredential();
-        commonlyTargetedByCombination = new CommonlyTargetedByCombination();
     }
 
 
     public CommonlyTargetedByCredential getCommonlyTargetedByCredential() {
         return commonlyTargetedByCredential;
-    }
-
-    public CommonlyTargetedByCombination getCommonlyTargetedByCombination() {
-        return commonlyTargetedByCombination;
     }
 
     public void populate(String username, String password) {
