@@ -11,7 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws BruteException, IOException, InterruptedException {
+    public static void main(String[] args) throws BruteException, IOException {
         // Creates a LOG_FILE and METRIC_FILE_LOCATION.
         // If they do not exist.
         loadPrerequisites();
@@ -29,7 +29,7 @@ public class Main {
         a.start();
 
         // Starts listening to LOG_FILE.
-        c.listen();
+        c.listen(a);
     }
 
 

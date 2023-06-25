@@ -54,7 +54,7 @@ public class AttackOriginByCountry {
         return countries.get(country);
     }
 
-    private String getCountryByIp(String ip) {
+    public String getCountryByIp(String ip) {
         try {
             InetAddress inet = getInetAddress(ip);
             return ipReader.get(inet).get("country").asText();

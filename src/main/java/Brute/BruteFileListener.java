@@ -1,12 +1,16 @@
 package Brute;
 
 import Brute.Metrics.BruteMetrics;
+import Brute.Metrics.GeographicMetrics.GeographicMetrics;
+import Brute.WebSocket.BruteServer;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.nio.file.StandardWatchEventKinds.*;
 
@@ -25,8 +29,9 @@ public class BruteFileListener {
     }
 
     @SuppressWarnings("unchecked")
-    public void listen() throws IOException {
+    public void listen(BruteServer bs) throws IOException {
         WatchService watcher = FileSystems.getDefault().newWatchService();
+        Gson gson = new Gson();
 
         String oldContents;
         if (file.exists()) {
@@ -76,8 +81,11 @@ public class BruteFileListener {
                                     }
                                 }
 
+
                                 // GeographicMetrics
                                 metrics.getMetrics().getGeographicMetrics().populate(latest.getHostname());
+                                latest.setCountry(metrics.getMetrics().getGeographicMetrics().getAttackOriginByCountry()
+                                        .getCountryByIp(latest.getHostname()));
 
                                 // TimeBasedMetrics
                                 metrics.getMetrics().getTimeBasedMetrics().populate();
@@ -87,6 +95,7 @@ public class BruteFileListener {
 
                                 metrics.saveMetrics();
                                 logEntries = parseWholeLog();
+                                bs.broadcast(gson.toJson(latest));
                             }
                         }
                     }
@@ -140,12 +149,17 @@ public class BruteFileListener {
         private String password;
         private String hostname;
         private String protocol;
+        private String country;
 
         public LogEntry(String username, String password, String hostname, String protocol) {
             this.username = username;
             this.password = password;
             this.hostname = hostname;
             this.protocol = protocol;
+        }
+
+        public void setCountry(String country) {
+            this.country = country;
         }
 
         public String getUsername() {
@@ -162,6 +176,12 @@ public class BruteFileListener {
 
         public String getHostname() {
             return hostname;
+        }
+        public String getCountry() {
+            if (country == null || country.isEmpty() || country.isBlank()) {
+                return "NULL";
+            }
+            return country;
         }
     }
 }

@@ -28,7 +28,7 @@ public class BruteServer extends WebSocketServer {
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
         String host = webSocket.getRemoteSocketAddress().getAddress().getHostAddress();
-        webSocket.send("Welcome to BruteExpose!");
+        webSocket.send("Connected to WebSocket!");
         System.out.println(host + " has connected to BruteExpose!");
     }
 
