@@ -1,7 +1,6 @@
 package Brute;
 
 import Brute.Metrics.BruteMetrics;
-import Brute.Metrics.GeographicMetrics.GeographicMetrics;
 import Brute.WebSocket.BruteServer;
 import com.google.gson.Gson;
 
@@ -10,7 +9,6 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static java.nio.file.StandardWatchEventKinds.*;
 
@@ -60,7 +58,7 @@ public class BruteFileListener {
                             // readAllBytes can throw a OutOfMemoryError if the file is
                             // very large, due to the nature of this application you
                             // should be able to just wipe the file once and while to
-                            // avoid hitting the limit.
+                            // avoid hitting the limit. Wipe the LOG_FILE
                             String newContents = new String(Files.readAllBytes(path));
                             if (!newContents.equals(oldContents)) {
                                 oldContents = newContents;
@@ -80,7 +78,6 @@ public class BruteFileListener {
                                         metrics.getMetrics().getCredentialBasedMetrics().populate(latest.getUsername(), latest.getPassword());
                                     }
                                 }
-
 
                                 // GeographicMetrics
                                 metrics.getMetrics().getGeographicMetrics().populate(latest.getHostname());
