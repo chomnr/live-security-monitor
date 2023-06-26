@@ -16,9 +16,12 @@ import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class BruteLogger {
     private ArrayList<LogEntry> logs = new ArrayList<>();
+
+    public boolean isReversed = false;
 
     public BruteLogger() {}
 
@@ -49,12 +52,7 @@ public class BruteLogger {
         return logs;
     }
 
-    public ArrayList<LogEntry> getReverseLogs() {
-        Collections.reverse(logs);
-        return logs;
-    }
-
-    public List<LogEntry> limitLogs(ArrayList<LogEntry> list, int limit){
-        return logs.subList(Math.max(logs.size() - limit, 0), logs.size());
+    public static List<LogEntry> limitLogs(ArrayList<LogEntry> list, int limit){
+        return list.subList(Math.max(list.size() - limit, 0), list.size());
     }
 }

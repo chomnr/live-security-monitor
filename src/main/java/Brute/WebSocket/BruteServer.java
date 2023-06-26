@@ -18,15 +18,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static Brute.Constants.LOG_RETRIEVAL_LIMIT;
-
 public class BruteServer extends WebSocketServer {
 
-    private BruteLogger logger;
-
-    public BruteServer(int port, BruteLogger logger) throws BruteException {
+    public BruteServer(int port) throws BruteException {
         super(BruteServerHelper.analyze(port));
-        this.logger = logger;
     }
 
     public BruteServer(InetSocketAddress address) {
@@ -41,8 +36,14 @@ public class BruteServer extends WebSocketServer {
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
         Gson gson = new Gson();
         String host = webSocket.getRemoteSocketAddress().getAddress().getHostAddress();
-        List<LogEntry> logs = logger.limitLogs(logger.getReverseLogs(), LOG_RETRIEVAL_LIMIT);
-        webSocket.send(gson.toJson(logs));
+        try {
+            List<LogEntry> logs = BruteLogger.limitLogs(new BruteLogger(Constants.LOG_FILE_LOCATION).getLogs(),
+                    Constants.LOG_RETRIEVAL_LIMIT);
+            Collections.reverse(logs);
+            webSocket.send(gson.toJson(logs));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println(host + " has connected to BruteExpose!");
     }
 
