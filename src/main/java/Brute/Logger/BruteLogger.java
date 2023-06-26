@@ -12,7 +12,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class BruteLogger {
     private ArrayList<LogEntry> logs = new ArrayList<>();
@@ -44,5 +47,14 @@ public class BruteLogger {
 
     public ArrayList<LogEntry> getLogs() {
         return logs;
+    }
+
+    public ArrayList<LogEntry> getReverseLogs() {
+        Collections.reverse(logs);
+        return logs;
+    }
+
+    public List<LogEntry> limitLogs(ArrayList<LogEntry> list, int limit){
+        return logs.subList(Math.max(logs.size() - limit, 0), logs.size());
     }
 }

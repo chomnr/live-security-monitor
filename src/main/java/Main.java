@@ -17,23 +17,23 @@ public class Main {
         // If they do not exist.
         loadPrerequisites();
 
-        // The websocket server.
-        BruteServer a = new BruteServer(Constants.WEBSOCKET_PORT);
+        // Stores the actual 'metrics' data. ^ above is actually analytics but... yeah.
+        BruteLogger logger = new BruteLogger(Constants.LOG_FILE_LOCATION);
 
         // Handles the data inside METRIC_FILE_LOCATION.
-        BruteMetrics b = new BruteMetrics(Constants.METRIC_FILE_LOCATION);
+        BruteMetrics metrics = new BruteMetrics(Constants.METRIC_FILE_LOCATION);
 
-        // Stores the actual 'metrics' data. ^ above is actually analytics but... yeah.
-        BruteLogger c = new BruteLogger(Constants.LOG_FILE_LOCATION);
+        // The websocket server.
+        BruteServer server = new BruteServer(Constants.WEBSOCKET_PORT, logger);
 
         // Listens to any changes to TRACKER_FILE.
-        BruteFileListener d = new BruteFileListener(Constants.TRACKER_FILE_DIRECTORY, Constants.TRACKER_FILE, b, c);
+        BruteFileListener listener = new BruteFileListener(Constants.TRACKER_FILE_DIRECTORY, Constants.TRACKER_FILE, metrics, logger);
 
         // Starts the websocket server.
-        a.start();
+        server.start();
 
         // Starts listening to TRACKER_FILE.
-        d.listen(a);
+        listener.listen(server);
     }
 
 

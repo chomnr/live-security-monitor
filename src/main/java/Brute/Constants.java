@@ -17,5 +17,5 @@ public class Constants {
     public static final String LOG_FILE_DIRECTORY = "/Users/zeljk/OneDrive/Desktop/Test/";
     public static final String LOG_FILE = "brute_log.json";
     public static final String LOG_FILE_LOCATION = LOG_FILE_DIRECTORY + LOG_FILE;
-    public static final int LOG_FILE_LAST_X = 30;
+    public static final int LOG_RETRIEVAL_LIMIT = 30;
 }
