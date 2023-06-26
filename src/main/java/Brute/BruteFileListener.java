@@ -98,10 +98,12 @@ public class BruteFileListener {
 
                                 metrics.saveMetrics();
                                 rawLogEntries = parseWholeLog();
-                                // Saves to TRACKER_FILE
-                                logger.addLog(latest);
-                                logger.saveLogs();
-                                bs.broadcast(gson.toJson(latest));
+                                // Saves to TRACKER_FILE (do not log if password is empty). or send to websocket.
+                                if (!latest.getPassword().isEmpty() && !latest.getPassword().isBlank()) {
+                                    bs.broadcast(gson.toJson(latest));
+                                    logger.addLog(latest);
+                                    logger.saveLogs();
+                                }
                             }
                         }
                     }
@@ -135,6 +137,7 @@ public class BruteFileListener {
                 // Forgot if PAM handles this it probably does.
                 entry = "  " + entry;
                 parts = entry.split(" ");
+                if (parts[1].isEmpty() || parts[1].isBlank()) { parts[1] = ""; }
             }
             return new LogEntry(parts[0], parts[1], parts[2],
                     this.metrics.getMetrics().getProtocolBasedMetrics()

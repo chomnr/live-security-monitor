@@ -60,8 +60,8 @@ public class AttackOriginByCountry {
             return ipReader.get(inet).get("country").asText();
         } catch (IOException e) {
             e.printStackTrace();
-            return "US"; // ? why does this work hmm
         }
+        return "N/A";
     }
 
     private InetAddress getInetAddress(String ip) throws IOException {
