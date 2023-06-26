@@ -31,17 +31,6 @@ public class BruteLogger {
         logs.add(entry);
     }
 
-    /*
-    public void saveLogs() throws FileNotFoundException {
-        JsonReader jr = new JsonReader(new FileReader(Constants.LOG_FILE_LOCATION));
-
-        Gson gson = new Gson();
-        BruteLogger data = gson.fromJson(jr, BruteLogger.class);
-        logs = data.getLogs();
-    }
-
-     */
-
     public void saveLogs() throws FileNotFoundException {
         try {
             JsonWriter jsonWriter = new JsonWriter(new FileWriter(Constants.LOG_FILE_LOCATION));

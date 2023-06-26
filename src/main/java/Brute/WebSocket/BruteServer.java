@@ -2,14 +2,23 @@ package Brute.WebSocket;
 
 import Brute.BruteException;
 import Brute.BruteUtilities;
+import Brute.Constants;
+import Brute.Logger.BruteLogger;
+import Brute.Logger.LogEntry;
+import com.google.gson.Gson;
 import org.java_websocket.WebSocket;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
+import static Brute.Constants.LOG_FILE_LAST_X;
 
 public class BruteServer extends WebSocketServer {
 
@@ -28,7 +37,16 @@ public class BruteServer extends WebSocketServer {
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
         String host = webSocket.getRemoteSocketAddress().getAddress().getHostAddress();
-        webSocket.send("Connected to WebSocket!");
+        try {
+            List<LogEntry> logs = new BruteLogger(Constants.LOG_FILE_LOCATION).getLogs();
+            List<LogEntry> getEndLogs = logs.subList(Math.max(logs.size() - LOG_FILE_LAST_X, 0), logs.size());
+            Collections.reverse(getEndLogs);
+            Gson gson = new Gson();
+            String result = gson.toJson(getEndLogs);
+            webSocket.send(result);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println(host + " has connected to BruteExpose!");
     }
 
