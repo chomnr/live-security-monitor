@@ -1,5 +1,7 @@
 package Brute;
 
+import Brute.Logger.BruteLogger;
+import Brute.Logger.LogEntry;
 import Brute.Metrics.BruteMetrics;
 import Brute.WebSocket.BruteServer;
 import com.google.gson.Gson;
@@ -18,14 +20,18 @@ public class BruteFileListener {
     private File file;
     private BruteMetrics metrics;
     private Path path;
-    private List<LogEntry> logEntries;
+    private BruteLogger logger;
+    private List<LogEntry> rawLogEntries;
 
-    public BruteFileListener(String directory, String file, BruteMetrics metrics) {
+    public BruteFileListener(String directory, String file, BruteMetrics metrics, BruteLogger logger) {
         this.directory = Paths.get(directory);
         this.file = new File(directory + file);
         this.metrics = metrics;
+        this.logger = logger;
     }
 
+
+    // TODO: REFRACTOR THIS ENTIRE THING.
     @SuppressWarnings("unchecked")
     public void listen(BruteServer bs) throws IOException {
         WatchService watcher = FileSystems.getDefault().newWatchService();
@@ -54,16 +60,16 @@ public class BruteFileListener {
                     if (kind == ENTRY_MODIFY) {
                         path = directory.resolve(fileName);
                         if (Files.isSameFile(path.toAbsolutePath(), this.file.toPath())) {
-                            logEntries = parseWholeLog();
+                            rawLogEntries = parseWholeLog();
                             // readAllBytes can throw a OutOfMemoryError if the file is
                             // very large, due to the nature of this application you
                             // should be able to just wipe the file once and while to
-                            // avoid hitting the limit. Wipe the LOG_FILE
+                            // avoid hitting the limit. Wipe the TRACKER_FILE
                             String newContents = new String(Files.readAllBytes(path));
                             if (!newContents.equals(oldContents)) {
                                 oldContents = newContents;
                                 // Latest Entry
-                                LogEntry latest = logEntries.get(logEntries.size()-1);
+                                LogEntry latest = rawLogEntries.get(rawLogEntries.size()-1);
 
                                 // We do not want empty fields but still log the rest of the data.
                                 if (!latest.getUsername().isBlank() &&
@@ -91,7 +97,10 @@ public class BruteFileListener {
                                 metrics.getMetrics().getProtocolBasedMetrics().populate(latest.getProtocol());
 
                                 metrics.saveMetrics();
-                                logEntries = parseWholeLog();
+                                rawLogEntries = parseWholeLog();
+                                // Saves to TRACKER_FILE
+                                logger.addLog(latest);
+                                logger.saveLogs();
                                 bs.broadcast(gson.toJson(latest));
                             }
                         }
@@ -142,46 +151,5 @@ public class BruteFileListener {
             e.printStackTrace();
         }
         return new ArrayList<>();
-    }
-
-    public static class LogEntry {
-        private String username;
-        private String password;
-        private String hostname;
-        private String protocol;
-        private String country;
-
-        public LogEntry(String username, String password, String hostname, String protocol) {
-            this.username = username;
-            this.password = password;
-            this.hostname = hostname;
-            this.protocol = protocol;
-        }
-
-        public void setCountry(String country) {
-            this.country = country;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public String getProtocol() {
-            return protocol;
-        }
-
-        public String getHostname() {
-            return hostname;
-        }
-        public String getCountry() {
-            if (country == null || country.isEmpty() || country.isBlank()) {
-                return "NULL";
-            }
-            return country;
-        }
     }
 }
