@@ -11,6 +11,6 @@ public class Constants {
     public static final String METRIC_FILE_LOCATION = "/Users/zeljk/OneDrive/Desktop/Test/brute_metrics.json";
 
     public static final String LOG_FILE_DIRECTORY = "/Users/zeljk/OneDrive/Desktop/Test/";
-    public static final String LOG_FILE = "brute_log.txt";
+    public static final String LOG_FILE = "brute_tracker.txt";
     public static final String LOG_FILE_LOCATION = LOG_FILE_DIRECTORY + LOG_FILE;
 }

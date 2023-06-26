@@ -35,7 +35,7 @@ public class DistributionOfAttackProtocols {
         return protocols.get(getNameOfProtocol(type));
     }
 
-    private ProtocolBasedType getProtocolByName(String protocol) {
+    public ProtocolBasedType getProtocolByName(String protocol) {
         if (protocol.equalsIgnoreCase("sshd")) {
             return ProtocolBasedType.SSH;
         }

@@ -127,7 +127,10 @@ public class BruteFileListener {
                 entry = "  " + entry;
                 parts = entry.split(" ");
             }
-            return new LogEntry(parts[0], parts[1], parts[2], parts[3]);
+            return new LogEntry(parts[0], parts[1], parts[2],
+                    this.metrics.getMetrics().getProtocolBasedMetrics()
+                            .getDistributionOfAttackProtocols()
+                            .getProtocolByName(parts[3]).toString());
         }
         return null;
     }
