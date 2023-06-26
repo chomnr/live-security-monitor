@@ -24,7 +24,7 @@ public class Main {
         BruteMetrics metrics = new BruteMetrics(Constants.METRIC_FILE_LOCATION);
 
         // The websocket server.
-        BruteServer server = new BruteServer(Constants.WEBSOCKET_PORT, logger);
+        BruteServer server = new BruteServer(Constants.WEBSOCKET_PORT);
 
         // Listens to any changes to TRACKER_FILE.
         BruteFileListener listener = new BruteFileListener(Constants.TRACKER_FILE_DIRECTORY, Constants.TRACKER_FILE, metrics, logger);
