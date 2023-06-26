@@ -36,14 +36,13 @@ public class BruteServer extends WebSocketServer {
 
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
+        Gson gson = new Gson();
         String host = webSocket.getRemoteSocketAddress().getAddress().getHostAddress();
         try {
             List<LogEntry> logs = new BruteLogger(Constants.LOG_FILE_LOCATION).getLogs();
             List<LogEntry> getEndLogs = logs.subList(Math.max(logs.size() - LOG_FILE_LAST_X, 0), logs.size());
             Collections.reverse(getEndLogs);
-            Gson gson = new Gson();
-            String result = gson.toJson(getEndLogs);
-            webSocket.send(result);
+            webSocket.send(gson.toJson(getEndLogs));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
