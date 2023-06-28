@@ -3,6 +3,7 @@ package Brute;
 import Brute.Logger.BruteLogger;
 import Brute.Logger.LogEntry;
 import Brute.Metrics.BruteMetrics;
+import Brute.Metrics.BruteMetricsMerger;
 import Brute.WebSocket.BruteServer;
 import com.google.gson.Gson;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static java.nio.file.StandardWatchEventKinds.*;
 
@@ -98,9 +100,12 @@ public class BruteFileListener {
 
                                 metrics.saveMetrics();
                                 rawLogEntries = parseWholeLog();
-                                // Saves to TRACKER_FILE (do not log if password is empty). or send to websocket.
+                                // Saves to TRACKER_FILE (do not log if password is empty and do not send to websocket).
                                 if (!latest.getPassword().isEmpty() && !latest.getPassword().isBlank()) {
-                                    bs.broadcast(gson.toJson(latest));
+                                    Map<String, Integer> topAttacking = metrics.getMetrics().getGeographicMetrics()
+                                            .getAttackOriginByCountry()
+                                            .getTopAttackers(10);
+                                    bs.broadcast(BruteMetricsMerger.mergeJson(latest, topAttacking));
                                     logger.addLog(latest);
                                     logger.saveLogs();
                                 }

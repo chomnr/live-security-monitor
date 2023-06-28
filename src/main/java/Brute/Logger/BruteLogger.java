@@ -1,8 +1,6 @@
 package Brute.Logger;
 
 import Brute.Constants;
-import Brute.Metrics.BruteMetricData;
-import Brute.Metrics.BruteMetrics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
@@ -12,16 +10,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.security.PublicKey;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class BruteLogger {
     private ArrayList<LogEntry> logs = new ArrayList<>();
-
-    public boolean isReversed = false;
 
     public BruteLogger() {}
 

@@ -1,6 +1,7 @@
 package Brute.Metrics.GeographicMetrics;
 
 import Brute.BruteException;
+import Brute.BruteUtilities;
 import Brute.Constants;
 import Brute.Exceptions.InvalidIpAddress;
 import com.maxmind.db.Reader;
@@ -10,8 +11,8 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AttackOriginByCountry {
 
@@ -48,6 +49,10 @@ public class AttackOriginByCountry {
         } catch (BruteException e) {
             e.printStackTrace();
         }
+    }
+
+    public HashMap<String, Integer> getTopAttackers(int limit) {
+        return (HashMap<String, Integer>) BruteUtilities.sortByValueAndLimit((Map<String, Integer>) countries.clone(), limit);
     }
 
     private int getAttempts(String country) {

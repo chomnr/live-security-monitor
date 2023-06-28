@@ -5,32 +5,36 @@ import Brute.BruteUtilities;
 import Brute.Constants;
 import Brute.Logger.BruteLogger;
 import Brute.Logger.LogEntry;
+import Brute.Metrics.BruteMetrics;
+import Brute.Metrics.BruteMetricsMerger;
 import com.google.gson.Gson;
 import org.java_websocket.WebSocket;
-import org.java_websocket.drafts.Draft;
-import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class BruteServer extends WebSocketServer {
 
-    public BruteServer(int port) throws BruteException {
+    private BruteMetrics metrics;
+
+    public BruteServer(int port, BruteMetrics metrics) throws BruteException {
         super(BruteServerHelper.analyze(port));
+        this.metrics = metrics;
     }
 
+    /*
     public BruteServer(InetSocketAddress address) {
         super(address);
     }
 
     public BruteServer(int port, Draft_6455 draft) {
         super(new InetSocketAddress(port), Collections.<Draft>singletonList(draft));
-    }
+    }*/
+
 
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
@@ -40,7 +44,12 @@ public class BruteServer extends WebSocketServer {
             List<LogEntry> logs = BruteLogger.limitLogs(new BruteLogger(Constants.LOG_FILE_LOCATION).getLogs(),
                     Constants.LOG_RETRIEVAL_LIMIT);
             Collections.reverse(logs);
-            webSocket.send(gson.toJson(logs));
+
+            Map<String, Integer> topAttacking = metrics.getMetrics().getGeographicMetrics()
+                    .getAttackOriginByCountry()
+                    .getTopAttackers(10);
+
+            webSocket.send(String.valueOf(gson.toJsonTree(BruteMetricsMerger.mergeJson(logs, topAttacking))));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -62,6 +71,7 @@ public class BruteServer extends WebSocketServer {
     @Override
     public void onStart() {
         setConnectionLostTimeout(10);
-        BruteUtilities.print("Listening on " + this.getAddress().getHostName() + ":" + this.getPort() + ".");
+        // wiuthout ssl
+        BruteUtilities.print("Listening on ws://" + this.getAddress().getHostName() + ":" + this.getPort() + ".");
     }
 }
