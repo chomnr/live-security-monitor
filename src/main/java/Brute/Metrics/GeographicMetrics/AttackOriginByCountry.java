@@ -4,15 +4,14 @@ import Brute.BruteException;
 import Brute.BruteUtilities;
 import Brute.Constants;
 import Brute.Exceptions.InvalidIpAddress;
+import com.maxmind.db.NodeCache;
 import com.maxmind.db.Reader;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
-import java.net.URI;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class AttackOriginByCountry {
 
@@ -21,11 +20,9 @@ public class AttackOriginByCountry {
     private transient Reader ipReader;
 
     public AttackOriginByCountry() {
-        //TODO: replace c:// soon just hacky solution..
         try {
-            URI uri = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource(Constants.COUNTRY_FILE_LOCATION)).toURI();
-            ipToCountryFile = Paths.get(uri);
-            ipReader = new Reader(ipToCountryFile.toFile(), Reader.FileMode.MEMORY_MAPPED);
+            InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(Constants.COUNTRY_FILE_LOCATION);
+            ipReader = new Reader(in);
         } catch (Exception e) {
             e.printStackTrace();
         }
