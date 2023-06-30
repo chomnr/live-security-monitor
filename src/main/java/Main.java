@@ -1,5 +1,6 @@
 import Brute.BruteException;
 import Brute.BruteFileListener;
+import Brute.BruteUtilities;
 import Brute.Constants;
 import Brute.Logger.BruteLogger;
 import Brute.Metrics.BruteMetrics;
@@ -11,10 +12,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static Brute.Constants.autoSetBasePath;
+
 public class Main {
+
     public static void main(String[] args) throws BruteException, IOException {
-        // Creates a TRACKER_FILE, LOG_FILE and METRIC_FILE_LOCATION.
-        // If they do not exist.
+        if (!autoSetBasePath()) {
+            BruteUtilities.print("Unable to set base path.");
+            return;
+        }
         loadPrerequisites();
 
         // Stores the actual 'metrics' data. ^ above is actually analytics but... yeah.
@@ -38,44 +44,20 @@ public class Main {
 
 
     private static void loadPrerequisites() throws IOException {
-        createTrackerFile();
-        createMetricsFile();
-        createLogFile();
+        createFile(Constants.TRACKER_FILE_LOCATION);
+        createFile(Constants.METRIC_FILE_LOCATION);
+        createFile(Constants.LOG_FILE_LOCATION);
     }
 
-    private static boolean createMetricsFile() throws IOException {
-        File metricFile = new File(Constants.METRIC_FILE_LOCATION);
-        if (!metricFile.exists()) {
-            metricFile.createNewFile();
+    private static void createFile(String fileLocation) throws IOException {
+        File file = new File(fileLocation);
+        if (file.exists()) { return; }
+        boolean created = file.createNewFile();
+        if (fileLocation.contains(".json") && created) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            FileWriter writer = new FileWriter(Constants.METRIC_FILE_LOCATION);
-            writer.write(gson.toJson(new BruteMetrics()));
-            writer.close();
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean createTrackerFile() throws IOException {
-        File trackerFile = new File(Constants.TRACKER_FILE_LOCATION);
-        if (!trackerFile.exists()) {
-            trackerFile.createNewFile();
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean createLogFile() throws IOException {
-        File logFile = new File(Constants.LOG_FILE_LOCATION);
-        if (!logFile.exists()) {
-            logFile.createNewFile();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            FileWriter writer = new FileWriter(Constants.LOG_FILE_LOCATION);
+            FileWriter writer = new FileWriter(fileLocation);
             writer.write(gson.toJson(new BruteLogger()));
             writer.close();
-            return true;
         }
-        return false;
     }
-
 }
