@@ -46,8 +46,7 @@ public class Main {
     private static boolean createMetricsFile() throws IOException {
         File metricFile = new File(Constants.METRIC_FILE_LOCATION);
         if (!metricFile.exists()) {
-            boolean mkdir = metricFile.mkdirs();
-            boolean createFile = metricFile.createNewFile();
+            metricFile.createNewFile();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             FileWriter writer = new FileWriter(Constants.METRIC_FILE_LOCATION);
             writer.write(gson.toJson(new BruteMetrics()));
@@ -60,8 +59,7 @@ public class Main {
     private static boolean createTrackerFile() throws IOException {
         File trackerFile = new File(Constants.TRACKER_FILE_LOCATION);
         if (!trackerFile.exists()) {
-            boolean mkdir = trackerFile.mkdirs();
-            boolean createFile = trackerFile.createNewFile();
+            trackerFile.createNewFile();
             return true;
         }
         return false;
@@ -70,8 +68,7 @@ public class Main {
     private static boolean createLogFile() throws IOException {
         File logFile = new File(Constants.LOG_FILE_LOCATION);
         if (!logFile.exists()) {
-            boolean mkdir = logFile.mkdirs();
-            boolean createFile = logFile.createNewFile();
+            logFile.createNewFile();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             FileWriter writer = new FileWriter(Constants.LOG_FILE_LOCATION);
             writer.write(gson.toJson(new BruteLogger()));
