@@ -39,6 +39,9 @@ public class DistributionOfAttackProtocols {
         if (protocol.equalsIgnoreCase("sshd")) {
             return ProtocolBasedType.SSH;
         }
+        if (protocol.equalsIgnoreCase("ssh")) {
+            return ProtocolBasedType.SSH;
+        }
         // or return UNKNOWN
         return ProtocolBasedType.UNKNOWN;
     }

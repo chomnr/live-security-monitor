@@ -5,7 +5,6 @@ import Brute.Logger.LogEntry;
 import Brute.Metrics.BruteMetrics;
 import Brute.Metrics.BruteMetricsMerger;
 import Brute.WebSocket.BruteServer;
-import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +36,6 @@ public class BruteFileListener {
     @SuppressWarnings("unchecked")
     public void listen(BruteServer bs) throws IOException {
         WatchService watcher = FileSystems.getDefault().newWatchService();
-        Gson gson = new Gson();
 
         String oldContents;
         if (file.exists()) {
