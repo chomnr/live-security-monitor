@@ -6,6 +6,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class BruteMetrics {
 
@@ -16,8 +18,7 @@ public class BruteMetrics {
     }
 
     public BruteMetrics(String fileLocation) throws IOException {
-        JsonReader jr = new JsonReader(new FileReader(fileLocation));
-
+        JsonReader jr = new JsonReader(Files.newBufferedReader(Paths.get(fileLocation)));
         Gson gson = new Gson();
         BruteMetrics data = gson.fromJson(jr, BruteMetrics.class);
         metrics = data.getMetrics();
