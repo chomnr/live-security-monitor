@@ -20,7 +20,7 @@ sudo apt install autoconf
 // Optional
 sudo apt install checkinstall
 ```
-### 2. Linux server (Core Packages)
+### 2. Requirements (Main)
 1. Install [OpenJDK 19](https://github.com/corretto/corretto-19/releases)
 2. Install [CMake 3.25.1](https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz)
 3. Install [BruteExpose OpenSSH](https://github.com/chomnr/openssh-portable.git)
@@ -85,7 +85,6 @@ original /etc/pam.d/common-auth
 auth    [success=2 default=ignore]      pam_unix.so nullok
 # here's the fallback if no module succeeds
 auth    requisite                       pam_deny.so
-
 ```
  to
 ```
