@@ -97,7 +97,7 @@ auth    optional                        libbe_pam.so
 auth    requisite                       pam_deny.so
 ```
 
-What's happening? If pam.unix.so is successfully it will skip the next 2 lines. If not
+What's happening? If pam.unix.so is successful it will skip the next 2 lines. If not
 it will hit our pam module then the pam_deny module.
 
 ## Running BruteExpose
