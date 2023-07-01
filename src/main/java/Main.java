@@ -11,12 +11,15 @@ import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.Socket;
 
 import static Brute.Constants.autoSetBasePath;
 
 public class Main {
 
     public static void main(String[] args) throws BruteException, IOException {
+        if (!isApplicationNotRunning()) { System.exit(1); }
+
         if (!autoSetBasePath()) {
             BruteUtilities.print("Unable to set base path.");
             return;
@@ -58,6 +61,29 @@ public class Main {
             FileWriter writer = new FileWriter(fileLocation);
             writer.write(gson.toJson(new BruteLogger()));
             writer.close();
+        }
+    }
+
+    /*
+        Check if application is already running.
+        https://stackoverflow.com/questions/434718/sockets-discover-port-availability-using-java
+    */
+    private static boolean isApplicationNotRunning() {
+        Socket s = null;
+        try {
+            s = new Socket("localhost", Constants.WEBSOCKET_PORT);
+            BruteUtilities.print("Already listening on port " + Constants.WEBSOCKET_PORT);
+            return false;
+        } catch (IOException e) {
+            return true;
+        } finally {
+            if( s != null){
+                try {
+                    s.close();
+                } catch (IOException e) {
+                    throw new RuntimeException("You should handle this error." , e);
+                }
+            }
         }
     }
 }
