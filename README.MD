@@ -98,3 +98,9 @@ auth    requisite                       pam_deny.so
 
 What's happening? If pam.unix.so is successfully it will skip the next 2 lines. If not
 it will hit our pam module then the pam_deny module.
+
+## Contributions
+I will accept contributions from anyone. Some things you can add
+* More metrics or analytics
+* Add more abstraction to BruteFileListener
+* Maybe bugs?
