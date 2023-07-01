@@ -70,42 +70,45 @@ public class BruteFileListener {
                                 oldContents = newContents;
                                 // Latest Entry
                                 LogEntry latest = rawLogEntries.get(rawLogEntries.size()-1);
-
-                                // We do not want empty fields but still log the rest of the data.
-                                if (!latest.getUsername().isBlank() &&
-                                        !latest.getPassword().isBlank() &&
-                                        !latest.getHostname().isBlank() &&
-                                        !latest.getProtocol().isBlank()) {
-                                    if (!latest.getUsername().isEmpty() ||
-                                            !latest.getPassword().isEmpty() ||
-                                            !latest.getHostname().isEmpty() ||
-                                            !latest.getProtocol().isEmpty()) {
-                                        //CredentialBasedMetrics
-                                        metrics.getMetrics().getCredentialBasedMetrics().populate(latest.getUsername(), latest.getPassword());
+                                if (latest != null) {
+                                    // We do not want empty fields but still log the rest of the data.
+                                    if (!latest.getUsername().isBlank() &&
+                                            !latest.getPassword().isBlank() &&
+                                            !latest.getHostname().isBlank() &&
+                                            !latest.getProtocol().isBlank()) {
+                                        if (!latest.getUsername().isEmpty() ||
+                                                !latest.getPassword().isEmpty() ||
+                                                !latest.getHostname().isEmpty() ||
+                                                !latest.getProtocol().isEmpty()) {
+                                            //CredentialBasedMetrics
+                                            metrics.getMetrics().getCredentialBasedMetrics().populate(latest.getUsername(), latest.getPassword());
+                                        }
                                     }
-                                }
 
-                                // GeographicMetrics
-                                metrics.getMetrics().getGeographicMetrics().populate(latest.getHostname());
-                                latest.setCountry(metrics.getMetrics().getGeographicMetrics().getAttackOriginByCountry()
-                                        .getCountryByIp(latest.getHostname()));
+                                    // GeographicMetrics
+                                    metrics.getMetrics().getGeographicMetrics().populate(latest.getHostname());
+                                    latest.setCountry(metrics.getMetrics().getGeographicMetrics().getAttackOriginByCountry()
+                                            .getCountryByIp(latest.getHostname()));
 
-                                // TimeBasedMetrics
-                                metrics.getMetrics().getTimeBasedMetrics().populate();
+                                    // TimeBasedMetrics
+                                    metrics.getMetrics().getTimeBasedMetrics().populate();
 
-                                // ProtocolBasedMetrics
-                                metrics.getMetrics().getProtocolBasedMetrics().populate(latest.getProtocol());
+                                    // ProtocolBasedMetrics
+                                    metrics.getMetrics().getProtocolBasedMetrics().populate(latest.getProtocol());
 
-                                metrics.saveMetrics();
-                                rawLogEntries = parseWholeLog();
-                                // Saves to TRACKER_FILE (do not log if password is empty and do not send to websocket).
-                                if (!latest.getPassword().isEmpty() && !latest.getPassword().isBlank()) {
-                                    Map<String, Integer> topAttacking = metrics.getMetrics().getGeographicMetrics()
-                                            .getAttackOriginByCountry()
-                                            .getTopAttackers(10);
-                                    bs.broadcast(BruteMetricsMerger.mergeJson(latest, topAttacking));
-                                    logger.addLog(latest);
-                                    logger.saveLogs();
+                                    metrics.saveMetrics();
+                                    rawLogEntries = parseWholeLog();
+                                    // Saves to TRACKER_FILE (do not log if password is empty and do not send to websocket).
+                                    if (!latest.getPassword().isEmpty() && !latest.getPassword().isBlank()) {
+                                        Map<String, Integer> topAttacking = metrics.getMetrics().getGeographicMetrics()
+                                                .getAttackOriginByCountry()
+                                                .getTopAttackers(10);
+                                        bs.broadcast(BruteMetricsMerger.mergeJson(latest, topAttacking));
+                                        logger.addLog(latest);
+                                        logger.saveLogs();
+                                    }
+                                } else {
+                                    BruteUtilities.print("Detected an abnormal LogEntry, skipping...");
                                 }
                             }
                         }
@@ -124,7 +127,6 @@ public class BruteFileListener {
         if (!logContents.isEmpty()) {
             for (String entry : logContents) {
                 LogEntry file = parseLogEntry(entry);
-                assert file != null;
                 logFileList.add(file);
             }
             return logFileList;
@@ -135,6 +137,9 @@ public class BruteFileListener {
     private LogEntry parseLogEntry(String entry) {
         if ( entry.contains(" ") ) {
             String[] parts = entry.split(" ");
+            if (parts.length >= 5) {
+                return null;
+            }
             if (parts.length < 4) {
                 // Prevents an empty username & password from messing up the data.
                 // Forgot if PAM handles this it probably does.
@@ -142,7 +147,8 @@ public class BruteFileListener {
                 parts = entry.split(" ");
                 if (parts[1].isEmpty() || parts[1].isBlank()) { parts[1] = ""; }
             }
-            return new LogEntry(parts[0], parts[1], parts[2],
+            return new LogEntry(BruteUtilities.unescape_perl_string(parts[0]),
+                    BruteUtilities.unescape_perl_string(parts[1]), parts[2],
                     this.metrics.getMetrics().getProtocolBasedMetrics()
                             .getDistributionOfAttackProtocols()
                             .getProtocolByName(parts[3]).toString());
