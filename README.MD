@@ -24,7 +24,8 @@ sudo apt install checkinstall
 1. Install [OpenJDK 19](https://github.com/corretto/corretto-19/releases)
 2. Install [CMake 3.25.1](https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz)
 3. Install [BruteExpose OpenSSH](https://github.com/chomnr/openssh-portable.git)
-4. [BruteExpose PAM Module](https://github.com/chomnr/be-pam)
+4. Add [BruteExpose PAM Module](https://github.com/chomnr/be-pam)
+5. Add [BruteExpose](https://github.com/chomnr/BruteExpose/releases)
 
 ### 3. Setting up CMake
 ```
@@ -98,6 +99,15 @@ auth    requisite                       pam_deny.so
 
 What's happening? If pam.unix.so is successfully it will skip the next 2 lines. If not
 it will hit our pam module then the pam_deny module.
+
+## Running BruteExpose
+After everything is set up locate BruteExpose.jar and run.
+```
+java -jar /path/to/your.jar
+
+to run in the background
+nohup java -jar myprogram.jar &
+```
 
 ## Analytics
 * NumberOfAttemptsOverTime (Hourly, Daily & Weekly)
