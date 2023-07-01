@@ -9,7 +9,7 @@ In terms of practicality, it is useful to keep this data to yourself and avoid p
 ## Getting Started
 
 ### 1. Linux prerequisites
-```
+```bash
 sudo apt update
 
 // Required
@@ -28,7 +28,7 @@ sudo apt install checkinstall
 5. Add [BruteExpose](https://github.com/chomnr/BruteExpose/releases)
 
 ### 3. Setting up CMake
-```
+```bash
 wget https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz
 tar -xzvf cmake-3.25.1.tar.gz
 cd cmake-3.25.1
@@ -41,7 +41,7 @@ sudo checkinstall
 ```
 
 ### 4. Setting up OpenSSH
-```
+```bash
 git clone https://github.com/chomnr/openssh-portable
 cd openssh-portable
 autoreconf
@@ -51,7 +51,7 @@ sudo make install
 ```
 
 ### 4b. Switch OpenSSH for client.
-```
+```bash
 cd /lib/systemd/system/ssh.service
 
 ExecStartPre=/usr/sbin/sshd -t
@@ -74,11 +74,11 @@ https://stackoverflow.com/questions/28860802/needed-packages-to-run-autoreconf-a
 All the pam modules should be under <b>/lib/x86_64-linux-gnu/security/</b>.
 So just drag and drop the bruteexpose pam module <b>libbe_pam.so</b> there.
 #### Setting up
-```
+```bash
 sudo nano /etc/pam.d/common-auth
 ```
  from
-```
+```bash
 sudo nano /etc/pam.d/common-auth
 
 original /etc/pam.d/common-auth
@@ -88,7 +88,7 @@ auth    [success=2 default=ignore]      pam_unix.so nullok
 auth    requisite                       pam_deny.so
 ```
  to
-```
+```bash
 # here are the per-package modules (the "Primary" block)
 auth    [success=2 default=ignore]      pam_unix.so nullok
 # enable BruteExpose.
@@ -102,7 +102,7 @@ it will hit our pam module then the pam_deny module.
 
 ## Running BruteExpose
 After everything is set up locate BruteExpose.jar and run.
-```
+```bash
 java -jar /path/to/your.jar
 
 to run in the background
