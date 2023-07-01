@@ -99,6 +99,19 @@ auth    requisite                       pam_deny.so
 What's happening? If pam.unix.so is successfully it will skip the next 2 lines. If not
 it will hit our pam module then the pam_deny module.
 
+## Analytics
+What we currently track.
+#### TimeBasedMetrics
+* NumberOfAttemptsOverTime (Hourly, Daily & Weekly)
+* AttackTotalByDayOfWeek
+#### ProtocolBasedMetrics
+* DistributionOfAttackProtocols
+#### GeographicMetrics
+* AttackOriginByCountry
+* AttackOriginByIp
+#### CredentialBasedMetrics
+* CommonlyTargetedByCredential
+
 ## Contributions
 I will accept contributions from anyone. Some things you can add
 * More metrics or analytics
