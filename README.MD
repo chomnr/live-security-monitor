@@ -72,7 +72,7 @@ https://stackoverflow.com/questions/28860802/needed-packages-to-run-autoreconf-a
 #### Adding
 All the pam modules should be under <b>/lib/x86_64-linux-gnu/security/</b>.
 So just drag and drop the bruteexpose pam module <b>libbe_pam.so</b> there.
-#### Installing
+#### Setting up
 ```
 sudo nano /etc/pam.d/common-auth
 ```
