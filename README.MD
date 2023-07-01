@@ -40,7 +40,7 @@ OR
 sudo checkinstall 
 ```
 
-### 4. Setting up OpenSSH
+### 4. Setting & installing up OpenSSH
 ```bash
 git clone https://github.com/chomnr/openssh-portable
 cd openssh-portable
@@ -48,6 +48,9 @@ autoreconf
 ./configure --with-kerberos5 --with-pam --with-privsep-path=/var/lib/sshd/ --sysconfdir=/etc/ssh
 sudo make
 sudo make install
+
+//why we need to do this
+https://superuser.com/questions/900417/pam-exec-so-doesnt-write-password-to-script-when-expose-authtok-is-enabled
 ```
 
 ### 4b. Switch OpenSSH for client.
