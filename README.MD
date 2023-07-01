@@ -114,7 +114,7 @@ METRIC_FILE,
 TRACKER_FILE,
 LOG_FILE
 <br><br>
-refer to Constants.Java for their names.
+refer to Constants.Java for their names & directories.
 
 
 ## Analytics
