@@ -100,16 +100,11 @@ What's happening? If pam.unix.so is successfully it will skip the next 2 lines. 
 it will hit our pam module then the pam_deny module.
 
 ## Analytics
-What we currently track.
-#### TimeBasedMetrics
 * NumberOfAttemptsOverTime (Hourly, Daily & Weekly)
 * AttackTotalByDayOfWeek
-#### ProtocolBasedMetrics
 * DistributionOfAttackProtocols
-#### GeographicMetrics
 * AttackOriginByCountry
 * AttackOriginByIp
-#### CredentialBasedMetrics
 * CommonlyTargetedByCredential
 
 ## Contributions
