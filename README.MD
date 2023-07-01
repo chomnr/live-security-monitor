@@ -7,6 +7,12 @@ BruteExpose is an application that logs any failed login attempts when someone t
 In terms of practicality, it is useful to keep this data to yourself and avoid public logging. However, using BruteExpose requires a modified version of OpenSSH that has the "Junk Password" feature disabled. This modification helps prevent timing-based attacks. If you intend to incorporate this into your security system, I highly recommend forking your own version of OpenSSH and adjusting it accordingly.
 
 ## Getting Started
+#### Requirements
+1. Install [OpenJDK 19](https://github.com/corretto/corretto-19/releases)
+2. Install [CMake 3.25.1](https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz)
+3. Install [BruteExpose OpenSSH](https://github.com/chomnr/openssh-portable.git)
+4. Add [BruteExpose PAM Module](https://github.com/chomnr/be-pam)
+5. Add [BruteExpose](https://github.com/chomnr/BruteExpose/releases)
 
 ### 1. Linux prerequisites
 ```bash
@@ -20,14 +26,8 @@ sudo apt install autoconf
 // Optional
 sudo apt install checkinstall
 ```
-### 2. Requirements (Main)
-1. Install [OpenJDK 19](https://github.com/corretto/corretto-19/releases)
-2. Install [CMake 3.25.1](https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz)
-3. Install [BruteExpose OpenSSH](https://github.com/chomnr/openssh-portable.git)
-4. Add [BruteExpose PAM Module](https://github.com/chomnr/be-pam)
-5. Add [BruteExpose](https://github.com/chomnr/BruteExpose/releases)
 
-### 3. Setting up CMake
+### 2. Setting up CMake
 ```bash
 wget https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz
 tar -xzvf cmake-3.25.1.tar.gz
@@ -40,7 +40,7 @@ OR
 sudo checkinstall 
 ```
 
-### 4. Setting & installing up OpenSSH
+### 3. Setting & installing up OpenSSH
 ```bash
 git clone https://github.com/chomnr/openssh-portable
 cd openssh-portable
@@ -53,7 +53,7 @@ sudo make install
 https://superuser.com/questions/900417/pam-exec-so-doesnt-write-password-to-script-when-expose-authtok-is-enabled
 ```
 
-### 4b. Switch OpenSSH for client.
+### 3b. Switch OpenSSH for client.
 ```bash
 cd /lib/systemd/system/ssh.service
 
@@ -71,7 +71,7 @@ more information here
 https://askubuntu.com/questions/1341247/openssh-showing-different-version-from-installed-version-on-remote-connection
 ```
 
-### 5. Adding & Setting up PAM Module
+### 4. Adding & Setting up PAM Module
 
 #### Adding
 All the pam modules should be under <b>/lib/x86_64-linux-gnu/security/</b>.
