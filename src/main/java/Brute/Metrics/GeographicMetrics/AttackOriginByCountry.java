@@ -16,7 +16,6 @@ import java.util.*;
 public class AttackOriginByCountry {
 
     private HashMap<String, Integer> countries = new HashMap<>();
-    private transient Path ipToCountryFile;
     private transient Reader ipReader;
 
     public AttackOriginByCountry() {
@@ -33,18 +32,11 @@ public class AttackOriginByCountry {
     }
 
     private void addAttempt(String ip, int amount) {
-        try {
-            if (!isValidIpAddress(ip)) {
-                throw new InvalidIpAddress();
-            }
-            String country = getCountryByIp(ip);
-            if (!countries.containsKey(country)) {
-                countries.put(country, amount);
-            } else {
-                countries.put(country, getAttempts(country)+amount);
-            }
-        } catch (BruteException e) {
-            e.printStackTrace();
+        String country = getCountryByIp(ip);
+        if (!countries.containsKey(country)) {
+            countries.put(country, amount);
+        } else {
+            countries.put(country, getAttempts(country)+amount);
         }
     }
 
@@ -62,38 +54,11 @@ public class AttackOriginByCountry {
             return ipReader.get(inet).get("country").asText();
         } catch (IOException e) {
             e.printStackTrace();
+            return "N/A";
         }
-        return "N/A";
     }
 
     private InetAddress getInetAddress(String ip) throws IOException {
        return InetAddress.getByName(ip);
-    }
-
-    /*
-        Snippet taken from:
-        https://stackoverflow.com/questions/4581877/validating-ipv4-string-in-java
-    */
-    private boolean isValidIpAddress(String ip) {
-        try {
-            if ( ip == null || ip.isEmpty() ) {
-                return false;
-            }
-
-            String[] parts = ip.split( "\\." );
-            if ( parts.length != 4 ) {
-                return false;
-            }
-
-            for ( String s : parts ) {
-                int i = Integer.parseInt( s );
-                if ( (i < 0) || (i > 255) ) {
-                    return false;
-                }
-            }
-            return !ip.endsWith(".");
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
     }
 }

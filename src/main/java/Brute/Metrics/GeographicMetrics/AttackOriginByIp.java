@@ -13,48 +13,14 @@ public class AttackOriginByIp {
     }
 
     private void addAttempt(String ip, int amount) {
-        try {
-            if (!isValidIpAddress(ip)) {
-                throw new InvalidIpAddress();
-            }
-            if (!ips.containsKey(ip)) {
-                ips.put(ip, amount);
-            } else {
-                ips.put(ip, getAttempts(ip)+amount);
-            }
-        } catch (BruteException e) {
-            e.printStackTrace();
+        if (!ips.containsKey(ip)) {
+            ips.put(ip, amount);
+        } else {
+            ips.put(ip, getAttempts(ip)+amount);
         }
     }
 
     private int getAttempts(String country) {
         return ips.get(country);
-    }
-
-    /*
-        Snippet taken from:
-        https://stackoverflow.com/questions/4581877/validating-ipv4-string-in-java
-    */
-    private boolean isValidIpAddress(String ip) {
-        try {
-            if ( ip == null || ip.isEmpty() ) {
-                return false;
-            }
-
-            String[] parts = ip.split( "\\." );
-            if ( parts.length != 4 ) {
-                return false;
-            }
-
-            for ( String s : parts ) {
-                int i = Integer.parseInt( s );
-                if ( (i < 0) || (i > 255) ) {
-                    return false;
-                }
-            }
-            return !ip.endsWith(".");
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
     }
 }
