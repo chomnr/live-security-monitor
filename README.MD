@@ -5,3 +5,97 @@ BruteExpose is an application that simply logs any failed login attempts when so
 
 #### Notice
 In terms of practicality, it is useful to keep this data to yourself and avoid public logging. However, using BruteExpose requires a modified version of OpenSSH that has the "Junk Password" feature disabled. This modification helps prevent timing-based attacks. If you intend to incorporate this into your security system, I highly recommend forking your own version of OpenSSH and adjusting it accordingly.
+
+## Getting Started
+
+### 1. Linux prerequisites
+```
+sudo apt update
+
+// Required
+sudo apt install build-essential zlib1g-dev libssl-dev
+sudo apt install libpam0g-dev libselinux1-dev libkrb5-dev
+sudo apt install autoconf
+
+// Optional
+sudo apt install checkinstall
+```
+### 2. Linux server (Core Packages)
+1. Install [OpenJDK 19](https://github.com/corretto/corretto-19/releases)
+2. Install [CMake 3.25.1](https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz)
+3. Install [BruteExpose OpenSSH](https://github.com/chomnr/openssh-portable.git)
+4. [BruteExpose PAM Module](https://github.com/chomnr/be-pam)
+
+### 3. Setting up CMake
+```
+wget https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz
+tar -xzvf cmake-3.25.1.tar.gz
+cd cmake-3.25.1
+./bootstrap
+sudo make
+
+sudo make install
+OR
+sudo checkinstall 
+```
+
+### 4. Setting up OpenSSH
+```
+git clone https://github.com/chomnr/openssh-portable
+cd openssh-portable
+autoreconf
+./configure --with-kerberos5 --with-pam --with-privsep-path=/var/lib/sshd/ --sysconfdir=/etc/ssh
+sudo make
+sudo make install
+```
+
+### 4b. Switch OpenSSH for client.
+```
+cd /lib/systemd/system/ssh.service
+
+ExecStartPre=/usr/sbin/sshd -t
+ExecStart=/usr/sbin/sshd -D $SSHD_OPTS
+ExecReload=/usr/sbin/sshd -t
+
+to
+
+ExecStartPre=/usr/local/sbin/sshd -t
+ExecStart=/usr/local/sbin/sshd -D $SSHD_OPTS
+ExecReload=/usr/local/sbin/sshd -t
+
+more information here
+https://stackoverflow.com/questions/28860802/needed-packages-to-run-autoreconf-and-configure-on-debian-wheezy
+```
+
+### 5. Adding & Setting up PAM Module
+
+#### Adding
+All the pam modules should be under <b>/lib/x86_64-linux-gnu/security/</b>.
+So just drag and drop the bruteexpose pam module <b>libbe_pam.so</b> there.
+#### Installing
+```
+sudo nano /etc/pam.d/common-auth
+```
+ from
+```
+sudo nano /etc/pam.d/common-auth
+
+original /etc/pam.d/common-auth
+# here are the per-package modules (the "Primary" block)
+auth    [success=2 default=ignore]      pam_unix.so nullok
+# here's the fallback if no module succeeds
+auth    requisite                       pam_deny.so
+
+```
+ to
+```
+# here are the per-package modules (the "Primary" block)
+auth    [success=2 default=ignore]      pam_unix.so nullok
+# enable BruteExpose.
+auth    optional                        libbe_pam.so
+# here's the fallback if no module succeeds
+auth    requisite                       pam_deny.so
+```
+
+What's happening? If pam.unix.so is successfully it will skip the next 2 line. If not
+it will hit our pam module then the pam_deny module.
