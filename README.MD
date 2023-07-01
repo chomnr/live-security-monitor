@@ -65,7 +65,7 @@ ExecStart=/usr/local/sbin/sshd -D $SSHD_OPTS
 ExecReload=/usr/local/sbin/sshd -t
 
 more information here
-https://stackoverflow.com/questions/28860802/needed-packages-to-run-autoreconf-and-configure-on-debian-wheezy
+https://askubuntu.com/questions/1341247/openssh-showing-different-version-from-installed-version-on-remote-connection
 ```
 
 ### 5. Adding & Setting up PAM Module
