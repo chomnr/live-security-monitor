@@ -111,7 +111,7 @@ java -jar /path/to/your.jar
 to run in the background
 nohup java -jar myprogram.jar &
 ```
-If you get an FileNotFoundException. You need to manually make the following files <br>
+If you get a FileNotFoundException. You need to manually make the following files <br>
 in the appropriate directory.<br><br>
 METRIC_FILE,
 TRACKER_FILE,
