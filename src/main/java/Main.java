@@ -50,6 +50,27 @@ public class Main {
         // Setting up Cloudflare SSL works with origin too.
         // https://github.com/TooTallNate/Java-WebSocket/issues/916
         // https://docs.oracle.com/cd/E35822_01/server.740/es_admin/src/tadm_ssl_convert_pem_to_jks.html
+        /*
+                String STORETYPE = "JKS";
+                String KEYSTORE =  "/path/to/keystore.ks"; //
+                String STOREPASSWORD = "";
+                String KEYPASSWORD = "";
+
+                KeyStore ks = KeyStore.getInstance( STORETYPE );
+                File kf = new File( KEYSTORE );
+                ks.load( new FileInputStream( kf ), STOREPASSWORD.toCharArray() );
+
+                KeyManagerFactory kmf = KeyManagerFactory.getInstance( "SunX509" );
+                kmf.init( ks, KEYPASSWORD.toCharArray() );
+                TrustManagerFactory tmf = TrustManagerFactory.getInstance( "SunX509" );
+                tmf.init( ks );
+
+                SSLContext sslContext = null;
+                sslContext = SSLContext.getInstance( "TLS" );
+                sslContext.init( kmf.getKeyManagers(), tmf.getTrustManagers(), null );
+
+                server.setWebSocketFactory(new DefaultSSLWebSocketServerFactory(sslContext));
+         */
 
 
         // Listens to any changes to TRACKER_FILE.
