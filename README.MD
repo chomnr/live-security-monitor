@@ -8,11 +8,11 @@ In terms of practicality, it is useful to keep this data to yourself and avoid p
 
 ## Getting Started
 #### Requirements
-1. [OpenJDK 19](https://github.com/corretto/corretto-19/releases)
-2. [CMake 3.25.1](https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz)
-3. [BruteExpose OpenSSH](https://github.com/chomnr/openssh-portable.git)
-4. [BruteExpose PAM Module](https://github.com/chomnr/be-pam)
-5. [BruteExpose](https://github.com/chomnr/BruteExpose/releases)
+* [OpenJDK 19](https://github.com/corretto/corretto-19/releases)
+* [CMake 3.25.1](https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz)
+* [BruteExpose OpenSSH](https://github.com/chomnr/openssh-portable.git)
+* [BruteExpose PAM Module](https://github.com/chomnr/be-pam)
+* [BruteExpose](https://github.com/chomnr/BruteExpose/releases)
 
 ### 1. Linux prerequisites
 ```bash
