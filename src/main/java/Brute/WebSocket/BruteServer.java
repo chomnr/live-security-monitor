@@ -13,6 +13,7 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class BruteServer extends WebSocketServer {
     private BruteMetrics metrics;
 
     public BruteServer(int port, BruteMetrics metrics) throws BruteException {
-        super(BruteServerHelper.analyze(port));
+        super(new InetSocketAddress(port));
         this.metrics = metrics;
     }
 
@@ -72,6 +73,6 @@ public class BruteServer extends WebSocketServer {
     public void onStart() {
         setConnectionLostTimeout(10);
         // wiuthout ssl
-        BruteUtilities.print("Listening on ws://" + this.getAddress().getHostName() + ":" + this.getPort() + ".");
+        BruteUtilities.print("Listening on port " + this.getPort());
     }
 }

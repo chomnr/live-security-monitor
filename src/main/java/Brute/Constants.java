@@ -5,7 +5,10 @@ import java.time.ZoneOffset;
 //TODO: SHRINK THIS.
 public class Constants {
 
-    public static final int WEBSOCKET_PORT = 8080;
+    //https://developers.cloudflare.com/fundamentals/get-started/reference/network-ports/
+    // if you want to route traffic through cloudflare
+    public static final int WEBSOCKET_PORT = 8443; //8080 = http, 8443 = https
+
     public static final String COUNTRY_FILE_LOCATION = "country.mmdb";
     public static final ZoneOffset ZONE_OFFSET = ZoneOffset.UTC;
 

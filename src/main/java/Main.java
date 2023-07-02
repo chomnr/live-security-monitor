@@ -7,18 +7,28 @@ import Brute.Metrics.BruteMetrics;
 import Brute.WebSocket.BruteServer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.java_websocket.server.DefaultSSLWebSocketServerFactory;
 
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Socket;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 
 import static Brute.Constants.autoSetBasePath;
 
 public class Main {
 
-    public static void main(String[] args) throws BruteException, IOException {
+    public static void main(String[] args) throws Exception, BruteException {
         if (!isApplicationNotRunning()) { System.exit(1); }
+
 
         if (!autoSetBasePath()) {
             BruteUtilities.print("Unable to set base path.");
@@ -34,6 +44,13 @@ public class Main {
 
         // The websocket server.
         BruteServer server = new BruteServer(Constants.WEBSOCKET_PORT, metrics);
+        // If you need SSL support please refer to these urls
+        // https://github.com/TooTallNate/Java-WebSocket/blob/master/src/main/example/SSLServerExample.java
+        // https://github.com/TooTallNate/Java-WebSocket/blob/master/src/main/example/SSLServerLetsEncryptExample.java
+        // Setting up Cloudflare SSL works with origin too.
+        // https://github.com/TooTallNate/Java-WebSocket/issues/916
+        // https://docs.oracle.com/cd/E35822_01/server.740/es_admin/src/tadm_ssl_convert_pem_to_jks.html
+
 
         // Listens to any changes to TRACKER_FILE.
         BruteFileListener listener = new BruteFileListener(Constants.TRACKER_FILE_DIRECTORY, Constants.TRACKER_FILE, metrics, logger);
