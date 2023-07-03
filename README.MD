@@ -11,6 +11,7 @@
 <br>
 [Video Example](https://www.youtube.com/watch?v=gLkr0gk88xk)
 <br>
+<br>
 BruteExpose is an application that logs any failed login attempts when someone tries to access your server. It also includes its own metrics and analytics system, allowing you to easily add or remove any metrics or analytics as needed.
 
 #### Notice
