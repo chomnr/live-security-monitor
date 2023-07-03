@@ -118,7 +118,25 @@ TRACKER_FILE,
 LOG_FILE
 <br><br>
 refer to Constants.Java for their names & directories.
+### Running with TLS 
+There is an example inside <b>[Main.java](https://github.com/chomnr/BruteExpose/blob/master/src/main/java/Main.java)</b>. Please refer to that.
+#### Cloudflare Origin Server
+Running this program over Cloudflare's origin server <b>has caused me
+some issues</b>. When someone initially visits the website 
+usually no issues occur with the websocket connection, but if they
+previously visited the site sometimes it does take a couple refreshes
+in order to get things working. I'm not entirely sure what's causing
+this problem, but I am almost certain, if I used a regular SSL certificate. 
+Like Let's Encrypt, Universal SSL, Edge Certificates. This issue likely would
+not have risen.
 
+Reasons why this could be happening.
+* Caching
+* HSTS
+* Origin server latency.
+
+## Example Usages
+* [bruteexpose-web-example-vue](https://github.com/chomnr/bruteexpose-web-example-vue)
 
 ## Analytics
 * NumberOfAttemptsOverTime (Hourly, Daily & Weekly)
