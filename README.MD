@@ -1,6 +1,8 @@
 ![BruteExposeBanner](https://pouch.jumpshare.com/preview/lK7_PdZYLiMIPDsCzupUPPOxsIihH80ih1hY4Mw87nPT5eUrYSzU36ryz_VzTFk4CYVsYBGImTBJ2m6PE1p2UjJprjKJn4snkOQIlHyX-Do)
 ----------------------------------------------------------------
 
+[Live Example](https://projects.zeljko.me/bruteexpose/)
+
 BruteExpose is an application that logs any failed login attempts when someone tries to access your server. It also includes its own metrics and analytics system, allowing you to easily add or remove any metrics or analytics as needed.
 
 #### Notice
@@ -121,19 +123,14 @@ refer to Constants.Java for their names & directories.
 ### Running with TLS 
 There is an example inside <b>[Main.java](https://github.com/chomnr/BruteExpose/blob/master/src/main/java/Main.java)</b>. Please refer to that.
 #### Cloudflare Origin Server
-Running this program over Cloudflare's origin server <b>has caused me
-some issues</b>. When someone initially visits the website 
-usually no issues occur with the websocket connection, but if they
-previously visited the site sometimes it does take a couple refreshes
-in order to get things working. I'm not entirely sure what's causing
-this problem, but I am almost certain, if I used a regular SSL certificate. 
-Like Let's Encrypt, Universal SSL, Edge Certificates. This issue likely would
-not have risen.
+Running this program over Cloudflare's origin server <b>has caused me some issues</b>. 
+When someone initially visits the website, usually no issues occur with the WebSocket connection. However, if they had previously visited the site, sometimes it takes a couple of refreshes to get things working. I'm not entirely sure what's causing this problem, but I am almost certain that if I used a regular SSL certificate like Let's Encrypt, this issue likely would not have arisen.
 
 Reasons why this could be happening.
 * Caching
 * HSTS
 * Origin server latency.
+* My very low tier ovh server 😭. 
 
 ## Example Usages
 * [bruteexpose-web-example-vue](https://github.com/chomnr/bruteexpose-web-example-vue)
