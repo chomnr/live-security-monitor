@@ -1,10 +1,15 @@
-![BruteExposeBanner](https://pouch.jumpshare.com/preview/lK7_PdZYLiMIPDsCzupUPPOxsIihH80ih1hY4Mw87nPT5eUrYSzU36ryz_VzTFk4CYVsYBGImTBJ2m6PE1p2UjJprjKJn4snkOQIlHyX-Do)
+![BruteExposeBanner](https://d3qe1qo9ekumsv.cloudfront.net/qha1%2Fpreview%2F52128350%2Fmain_full.png?response-content-disposition=inline%3Bfilename%3D%22main_full.png%22%3B&response-content-type=image%2Fpng&Expires=1688358675&Signature=bX8R6fGT3J9DKBkjAAxBsac9dzWEpff9fQnAgFSpM58p7aAstm6tTFYt6Y65TdHV5B9jqvrjqKcnZKlFo-J08-cceUBy5OkCgOXb5jFlF5zuG4yuJnsWkaaP9YfFYJLUtyrB7FcnmEQLl~EBw2gKN6vOh9LeulEujYxeWPmUZ7MOMMyZ0HON5v1KY~vNU37EOJNrmTydHOmRtfymUR9YVGR6FG1VxHts6aw4ns4GbsXXX1pi8m~WIe4aYlHdcQ8udSf94cPbGE1-cGY75pkeHhGPaZYZa9OfhCh5vLCUa9Fg~4D9DSlS49bfayUIED~ITrvPOHzdgEuzs42MT-MhCw__&Key-Pair-Id=APKAJT5WQLLEOADKLHBQ)
 ----------------------------------------------------------------
+
+<div style="text-align: center">
+  <a href="https://app.codacy.com/gh/chomnr/BruteExpose/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/b001e23d455d426db21447967c69064a"/></a>
+  <img src="https://img.shields.io/github/commit-activity/m/chomnr/bruteexpose?color=red"/>
+  <img src="https://img.shields.io/github/repo-size/chomnr/bruteexpose"/>
+</div>
 
 [Live Example](https://projects.zeljko.me/bruteexpose/)
 <br>
 [Video Example](https://www.youtube.com/watch?v=gLkr0gk88xk)
-
 BruteExpose is an application that logs any failed login attempts when someone tries to access your server. It also includes its own metrics and analytics system, allowing you to easily add or remove any metrics or analytics as needed.
 
 #### Notice
