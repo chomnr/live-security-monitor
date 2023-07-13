@@ -15,7 +15,7 @@
 BruteExpose is an application that logs any failed login attempts when someone tries to access your server. It also includes its own metrics and analytics system, allowing you to easily add or remove any metrics or analytics as needed.
 
 #### Notice
-In terms of practicality, it is useful to keep this data to yourself and avoid public logging. However, using BruteExpose requires a modified version of OpenSSH that has the "Junk Password" feature disabled. This modification helps prevent timing-based attacks. If you intend to incorporate this into your security system, I highly recommend forking your own version of OpenSSH and adjusting it accordingly.
+In terms of practicality, it is useful to keep this data to yourself and avoid public logging. However, using BruteExpose requires a modified version of OpenSSH that has the "Junk Password" feature disabled. This modification allows timing-based attacks. If you intend to incorporate this into your security system, I highly recommend forking your own version of OpenSSH and adjusting it accordingly.
 
 ## Getting Started
 #### Requirements
