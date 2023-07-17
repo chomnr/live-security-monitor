@@ -1,4 +1,5 @@
-![BruteExposeBanner](https://d3qe1qo9ekumsv.cloudfront.net/qha1%2Fpreview%2F52128350%2Fmain_full.png?response-content-disposition=inline%3Bfilename%3D%22main_full.png%22%3B&response-content-type=image%2Fpng&Expires=1688358675&Signature=bX8R6fGT3J9DKBkjAAxBsac9dzWEpff9fQnAgFSpM58p7aAstm6tTFYt6Y65TdHV5B9jqvrjqKcnZKlFo-J08-cceUBy5OkCgOXb5jFlF5zuG4yuJnsWkaaP9YfFYJLUtyrB7FcnmEQLl~EBw2gKN6vOh9LeulEujYxeWPmUZ7MOMMyZ0HON5v1KY~vNU37EOJNrmTydHOmRtfymUR9YVGR6FG1VxHts6aw4ns4GbsXXX1pi8m~WIe4aYlHdcQ8udSf94cPbGE1-cGY75pkeHhGPaZYZa9OfhCh5vLCUa9Fg~4D9DSlS49bfayUIED~ITrvPOHzdgEuzs42MT-MhCw__&Key-Pair-Id=APKAJT5WQLLEOADKLHBQ)
+![BruteExposeBanner](https://github.com/chomnr/BruteExpose/blob/master/src/main/resources/readme_banner.png?raw=true)
+
 ----------------------------------------------------------------
 
 <p align="center">
