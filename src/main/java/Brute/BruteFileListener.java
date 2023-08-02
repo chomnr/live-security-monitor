@@ -7,9 +7,11 @@ import Brute.Metrics.BruteMetricsMerger;
 import Brute.WebSocket.BruteServer;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +63,11 @@ public class BruteFileListener {
                         path = directory.resolve(fileName);
                         if (Files.isSameFile(path.toAbsolutePath(), this.file.toPath())) {
                             rawLogEntries = parseWholeLog();
+
+                            if (rawLogEntries.isEmpty()) {
+                                BruteUtilities.print("Detected another abnormality; Skipping.");
+                                return;
+                            }
                             // readAllBytes can throw a OutOfMemoryError if the file is
                             // very large, due to the nature of this application you
                             // should be able to just wipe the file once and while to
@@ -108,7 +115,7 @@ public class BruteFileListener {
                                         logger.saveLogs();
                                     }
                                 } else {
-                                    BruteUtilities.print("Detected an abnormal LogEntry, skipping...");
+                                    BruteUtilities.print("Detected an abnormality. Empty List?");
                                 }
                             }
                         }
@@ -158,10 +165,10 @@ public class BruteFileListener {
 
     private List<String> getContentsOfLog() {
         try {
-            return Files.readAllLines(path, StandardCharsets.UTF_8);
+            return Files.readAllLines(path, Charset.defaultCharset());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Detected an abnormal inside LogFile, skipping...");
+            return new ArrayList<String>();
         }
-        return new ArrayList<>();
     }
 }
