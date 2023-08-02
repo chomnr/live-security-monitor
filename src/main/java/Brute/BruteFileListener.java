@@ -6,8 +6,8 @@ import Brute.Metrics.BruteMetrics;
 import Brute.Metrics.BruteMetricsMerger;
 import Brute.WebSocket.BruteServer;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -158,7 +158,7 @@ public class BruteFileListener {
 
     private List<String> getContentsOfLog() {
         try {
-            return Files.readAllLines(path);
+            return Files.readAllLines(path, StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
