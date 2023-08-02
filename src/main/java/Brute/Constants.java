@@ -34,7 +34,7 @@ public class Constants {
         }
         if (os_name.toLowerCase().contains("windows")) {
             String user = System.getProperty("user.name");
-            BASE_PATH = "/Users/" + user + "/OneDrive/Desktop/Test/";
+            BASE_PATH = "/Users/" + user + "/OneDrive/Desktop/Test/"; //todo: make sure u change this
         }
 
         if (!BASE_PATH.isEmpty()) {

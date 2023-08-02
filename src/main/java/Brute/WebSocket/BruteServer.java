@@ -52,6 +52,7 @@ public class BruteServer extends WebSocketServer {
 
             webSocket.send(String.valueOf(gson.toJsonTree(BruteMetricsMerger.mergeJson(logs, topAttacking))));
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
         System.out.println(host + " has connected to BruteExpose!");

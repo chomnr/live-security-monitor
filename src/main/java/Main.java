@@ -18,9 +18,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Socket;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 
 import static Brute.Constants.autoSetBasePath;
 
@@ -28,7 +25,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception, BruteException {
         if (!isApplicationNotRunning()) { System.exit(1); }
-
 
         if (!autoSetBasePath()) {
             BruteUtilities.print("Unable to set base path.");
@@ -44,34 +40,29 @@ public class Main {
 
         // The websocket server.
         BruteServer server = new BruteServer(Constants.WEBSOCKET_PORT, metrics);
-        // If you need SSL support please refer to these urls
-        // https://github.com/TooTallNate/Java-WebSocket/blob/master/src/main/example/SSLServerExample.java
-        // https://github.com/TooTallNate/Java-WebSocket/blob/master/src/main/example/SSLServerLetsEncryptExample.java
-        // Setting up Cloudflare SSL works with origin too.
-        // https://github.com/TooTallNate/Java-WebSocket/issues/916
-        // https://docs.oracle.com/cd/E35822_01/server.740/es_admin/src/tadm_ssl_convert_pem_to_jks.html
         /*
-                String STORETYPE = "JKS";
-                String KEYSTORE =  "/path/to/keystore.ks"; //
-                String STOREPASSWORD = "";
-                String KEYPASSWORD = "";
+        // ---------SSL STARTS HERE---------
+        String STORETYPE = "JKS";
+        String KEYSTORE =  "/etc/ssl/store/keystore.ks";
+        String STOREPASSWORD = "";
+        String KEYPASSWORD = "";
 
-                KeyStore ks = KeyStore.getInstance( STORETYPE );
-                File kf = new File( KEYSTORE );
-                ks.load( new FileInputStream( kf ), STOREPASSWORD.toCharArray() );
+        KeyStore ks = KeyStore.getInstance( STORETYPE );
+        File kf = new File( KEYSTORE );
+        ks.load( new FileInputStream( kf ), STOREPASSWORD.toCharArray() );
 
-                KeyManagerFactory kmf = KeyManagerFactory.getInstance( "SunX509" );
-                kmf.init( ks, KEYPASSWORD.toCharArray() );
-                TrustManagerFactory tmf = TrustManagerFactory.getInstance( "SunX509" );
-                tmf.init( ks );
+        KeyManagerFactory kmf = KeyManagerFactory.getInstance( "SunX509" );
+        kmf.init( ks, KEYPASSWORD.toCharArray() );
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance( "SunX509" );
+        tmf.init( ks );
 
-                SSLContext sslContext = null;
-                sslContext = SSLContext.getInstance( "TLS" );
-                sslContext.init( kmf.getKeyManagers(), tmf.getTrustManagers(), null );
+        SSLContext sslContext = null;
+        sslContext = SSLContext.getInstance( "TLS" );
+        sslContext.init( kmf.getKeyManagers(), tmf.getTrustManagers(), null );
 
-                server.setWebSocketFactory(new DefaultSSLWebSocketServerFactory(sslContext));
-         */
-
+        server.setWebSocketFactory(new DefaultSSLWebSocketServerFactory(sslContext));
+        /// SSL ENDS HERE
+        */
 
         // Listens to any changes to TRACKER_FILE.
         BruteFileListener listener = new BruteFileListener(Constants.TRACKER_FILE_DIRECTORY, Constants.TRACKER_FILE, metrics, logger);
