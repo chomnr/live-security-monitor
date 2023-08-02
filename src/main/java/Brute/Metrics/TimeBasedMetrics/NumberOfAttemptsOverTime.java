@@ -45,6 +45,18 @@ public class NumberOfAttemptsOverTime {
         updateValue(TimeBasedType.WEEKLY, value);
     }
 
+    public NavigableMap<String, Integer> getHourly() {
+        return hourly;
+    }
+
+    public NavigableMap<String, Integer> getDaily() {
+        return daily;
+    }
+
+    public NavigableMap<String, Integer> getWeekly() {
+        return weekly;
+    }
+
     private void updateValue(TimeBasedType type, int value) {
         NavigableMap<String, Integer> currentMap = getMapByType(type);
 
