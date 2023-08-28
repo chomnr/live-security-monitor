@@ -65,8 +65,7 @@ public class BruteFileListener {
                             rawLogEntries = parseWholeLog();
 
                             if (rawLogEntries.isEmpty()) {
-                                BruteUtilities.print("Failed to parse log. empty?.");
-                                return;
+                                BruteUtilities.print("Failed to parse log; attempting to reparse.");
                             }
                             // readAllBytes can throw a OutOfMemoryError if the file is
                             // very large, due to the nature of this application you
@@ -169,7 +168,7 @@ public class BruteFileListener {
         } catch (IOException e) {
             System.out.println("Empty file?");
             List<String> dummy = new ArrayList<String>();
-            dummy.add("dummy dummy 0.0.0.0 sshd ");
+            dummy.add("dummy dummy 0.0.0.0 sshd");
             return dummy;
         }
     }
