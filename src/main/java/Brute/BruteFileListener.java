@@ -72,7 +72,7 @@ public class BruteFileListener {
                             // should be able to just wipe the file once and while to
                             // avoid hitting the limit. Wipe the TRACKER_FILE
                             String newContents = new String(Files.readAllBytes(path));
-                            if (!newContents.equals(oldContents)) {
+                            if (!newContents.equals(oldContents) & !rawLogEntries.isEmpty()) {
                                 oldContents = newContents;
                                 // Latest Entry
                                 LogEntry latest = rawLogEntries.get(rawLogEntries.size()-1);
