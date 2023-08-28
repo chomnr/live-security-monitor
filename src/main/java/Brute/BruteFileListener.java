@@ -65,7 +65,7 @@ public class BruteFileListener {
                             rawLogEntries = parseWholeLog();
 
                             if (rawLogEntries.isEmpty()) {
-                                BruteUtilities.print("Detected another abnormality; Skipping.");
+                                BruteUtilities.print("Failed to parse log. empty?.");
                                 return;
                             }
                             // readAllBytes can throw a OutOfMemoryError if the file is
@@ -167,8 +167,10 @@ public class BruteFileListener {
         try {
             return Files.readAllLines(path, Charset.defaultCharset());
         } catch (IOException e) {
-            System.out.println("Detected an abnormal inside LogFile, skipping...");
-            return new ArrayList<String>();
+            System.out.println("Empty file?");
+            List<String> dummy = new ArrayList<String>();
+            dummy.add("dummy dummy 0.0.0.0 sshd ");
+            return dummy;
         }
     }
 }
