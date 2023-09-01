@@ -92,9 +92,14 @@ public class BruteFileListener {
                                     }
 
                                     // GeographicMetrics
-                                    metrics.getMetrics().getGeographicMetrics().populate(latest.getHostname());
-                                    latest.setCountry(metrics.getMetrics().getGeographicMetrics().getAttackOriginByCountry()
-                                            .getCountryByIp(latest.getHostname()));
+                                    // can output error if ip country.mmdb not up to date.
+                                    try {
+                                        metrics.getMetrics().getGeographicMetrics().populate(latest.getHostname());
+                                        latest.setCountry(metrics.getMetrics().getGeographicMetrics().getAttackOriginByCountry()
+                                                .getCountryByIp(latest.getHostname()));
+                                    } catch (Exception e) {
+                                        System.out.println("Error finding origin of IP. Country.mmdb likely outdated.");
+                                    }
 
                                     // TimeBasedMetrics
                                     metrics.getMetrics().getTimeBasedMetrics().populate();
