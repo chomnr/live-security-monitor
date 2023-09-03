@@ -65,8 +65,9 @@ public class BruteFileListener {
                             rawLogEntries = parseWholeLog();
 
                             if (rawLogEntries.isEmpty()) {
-                                BruteUtilities.print("Failed to parse log; attempting to reparse.");
+                                BruteUtilities.print("Log file is empty...");
                             }
+
                             // readAllBytes can throw a OutOfMemoryError if the file is
                             // very large, due to the nature of this application you
                             // should be able to just wipe the file once and while to
@@ -171,8 +172,8 @@ public class BruteFileListener {
         try {
             return Files.readAllLines(path, Charset.defaultCharset());
         } catch (IOException e) {
-            System.out.println("Empty file?");
-            return new ArrayList<String>();
+            System.out.println("Failed to parse log");
+            return null;
         }
     }
 }
