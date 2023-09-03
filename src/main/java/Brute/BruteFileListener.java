@@ -8,10 +8,8 @@ import Brute.WebSocket.BruteServer;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -136,6 +134,7 @@ public class BruteFileListener {
         List<String> logContents = getContentsOfLog();
         List<LogEntry> logFileList = new ArrayList<>();
 
+        assert logContents != null;
         if (!logContents.isEmpty()) {
             for (String entry : logContents) {
                 LogEntry file = parseLogEntry(entry);
