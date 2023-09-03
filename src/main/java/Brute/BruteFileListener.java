@@ -172,9 +172,7 @@ public class BruteFileListener {
             return Files.readAllLines(path, Charset.defaultCharset());
         } catch (IOException e) {
             System.out.println("Empty file?");
-            List<String> dummy = new ArrayList<String>();
-            dummy.add("dummy dummy 0.0.0.0 sshd");
-            return dummy;
+            return new ArrayList<String>();
         }
     }
 }
