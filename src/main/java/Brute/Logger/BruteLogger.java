@@ -27,6 +27,9 @@ public class BruteLogger {
     }
 
     public void addLog(LogEntry entry) {
+        if (logs.size() > 50) {
+            logs.remove(0);
+        }
         logs.add(entry);
     }
 
