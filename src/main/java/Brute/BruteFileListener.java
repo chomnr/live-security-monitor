@@ -134,7 +134,7 @@ public class BruteFileListener {
         List<String> logContents = getContentsOfLog();
         List<LogEntry> logFileList = new ArrayList<>();
 
-        assert logContents != null;
+        if (logContents == null) { return logFileList;}
         if (!logContents.isEmpty()) {
             for (String entry : logContents) {
                 LogEntry file = parseLogEntry(entry);
