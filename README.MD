@@ -8,9 +8,9 @@
   <img src="https://img.shields.io/github/repo-size/chomnr/bruteexpose"/>
 </p>
 
-[Live Example](https://projects.zeljko.me/bruteexpose/)
+[Live Example](https://projects.zeljko.me/bruteexpose/) (might need to refresh a couple times because of the cloudflare cache).
 <br>
-[Video Example](https://www.youtube.com/watch?v=gLkr0gk88xk)
+[Video Example](https://www.youtube.com/watch?v=gLkr0gk88xk) 
 <br>
 <br>
 BruteExpose is an application that logs any failed login attempts when someone tries to access your server. It also includes its own metrics and analytics system, allowing you to easily add or remove any metrics or analytics as needed.
