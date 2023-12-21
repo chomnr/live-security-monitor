@@ -8,7 +8,6 @@
   <img src="https://img.shields.io/github/repo-size/chomnr/bruteexpose"/>
 </p>
 
-[Live Example](https://projects.zeljko.me/bruteexpose/) (might need to refresh a couple times because of the cloudflare cache).
 <br>
 [Video Example](https://www.youtube.com/watch?v=gLkr0gk88xk) 
 <br>
