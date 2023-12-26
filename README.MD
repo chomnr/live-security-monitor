@@ -17,6 +17,9 @@ BruteExpose is an application that logs any failed login attempts when someone t
 #### Notice
 In terms of practicality, it is useful to keep this data to yourself and avoid public logging. However, using BruteExpose requires a modified version of OpenSSH that has the "Junk Password" feature disabled. This modification allows timing-based attacks. If you intend to incorporate this into your security system, I highly recommend forking your own version of OpenSSH and adjusting it accordingly.
 
+#### Country.mmdb
+You can get the country.mmdb from IPInfo ensure you upload it under resources then compile the program.
+
 ## Getting Started
 #### Requirements
 * [OpenJDK 19](https://github.com/corretto/corretto-19/releases)
